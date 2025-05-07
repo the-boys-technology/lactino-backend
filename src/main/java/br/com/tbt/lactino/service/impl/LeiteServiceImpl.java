@@ -2,15 +2,19 @@ package br.com.tbt.lactino.service.impl;
 
 import br.com.tbt.lactino.controller.request.AtualizarLeiteDTO;
 import br.com.tbt.lactino.controller.request.LeiteDTO;
+import br.com.tbt.lactino.controller.request.LeiteFiltro;
 import br.com.tbt.lactino.controller.response.LeiteDetalhadoResponse;
 import br.com.tbt.lactino.model.Leite;
 import br.com.tbt.lactino.model.enums.StatusLeiteEnum;
 import br.com.tbt.lactino.repository.LeiteRepository;
+import br.com.tbt.lactino.repository.specifications.LeiteSpecification;
 import br.com.tbt.lactino.service.LeiteService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class LeiteServiceImpl implements LeiteService {
@@ -63,5 +67,13 @@ public class LeiteServiceImpl implements LeiteService {
         leite.setStatus(StatusLeiteEnum.UTILIZADO);
         leiteRepository.save(leite);
         return new LeiteDetalhadoResponse(leite);
+    }
+
+    @Override
+    public List<LeiteDetalhadoResponse> listarLeitesComFiltro(LeiteFiltro filtro) {
+        return leiteRepository.findAll(LeiteSpecification.filtrar(filtro))
+                .stream()
+                .map(LeiteDetalhadoResponse::new)
+                .collect(Collectors.toList());
     }
 }
