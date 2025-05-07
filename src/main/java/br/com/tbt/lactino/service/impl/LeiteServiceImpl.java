@@ -4,6 +4,7 @@ import br.com.tbt.lactino.controller.request.AtualizarLeiteDTO;
 import br.com.tbt.lactino.controller.request.LeiteDTO;
 import br.com.tbt.lactino.controller.response.LeiteDetalhadoResponse;
 import br.com.tbt.lactino.model.Leite;
+import br.com.tbt.lactino.model.enums.StatusLeiteEnum;
 import br.com.tbt.lactino.repository.LeiteRepository;
 import br.com.tbt.lactino.service.LeiteService;
 import jakarta.persistence.EntityNotFoundException;
@@ -50,6 +51,16 @@ public class LeiteServiceImpl implements LeiteService {
         if (leiteDTO.status() != null) leite.setStatus(leiteDTO.status());
         if (leiteDTO.finalidade() != null) leite.setFinalidade(leiteDTO.finalidade());
 
+        leiteRepository.save(leite);
+        return new LeiteDetalhadoResponse(leite);
+    }
+
+    @Override
+    public LeiteDetalhadoResponse transformarLeite(UUID leiteId) {
+        Leite leite = leiteRepository.findById(leiteId)
+                .orElseThrow(() -> new EntityNotFoundException("Leite com ID " + leiteId + " não encontrado."));
+
+        leite.setStatus(StatusLeiteEnum.UTILIZADO);
         leiteRepository.save(leite);
         return new LeiteDetalhadoResponse(leite);
     }
