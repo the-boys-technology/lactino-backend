@@ -47,10 +47,22 @@ public class Leite {
     // refatorar para ser a entidade FORNECEDOR
     private String fornecedor;
 
-    @PrePersist
-    public void calcularDataValidade() {
+    public Leite(String nome, String descricao, LocalDate dataObtencao, String origem, TurnoEnum turno, StatusLeiteEnum status, String finalidade, String fornecedor) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.dataObtencao = dataObtencao;
+        this.dataValidade = this.calcularDataValidade();
+        this.origem = origem;
+        this.turno = turno;
+        this.status = status;
+        this.finalidade = finalidade;
+        this.fornecedor = fornecedor;
+    }
+
+    public LocalDate calcularDataValidade() {
         if (dataObtencao != null && dataValidade == null) {
-            this.dataValidade = dataObtencao.plusDays(7);
+           return dataObtencao.plusDays(7);
         }
+        return null;
     }
 }
