@@ -37,4 +37,10 @@ public class LeiteController {
     public LeiteDetalhadoResponse atualizarLeite(@PathVariable UUID id, @RequestBody @Valid AtualizarLeiteDTO leiteDTO) {
         return leiteService.atualizarLeite(id, leiteDTO);
     }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public LeiteDetalhadoResponse transformarLeite(@PathVariable UUID id) {
+        return leiteService.transformarLeite(id);
+    }
 }
