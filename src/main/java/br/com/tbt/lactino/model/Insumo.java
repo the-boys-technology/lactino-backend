@@ -38,7 +38,6 @@ public class Insumo {
   @Column(nullable = false)
   private Double quantidadeMinima;
 
-  @Column(nullable = false)
   private LocalDate validade;
 
   @Column(nullable = false)
