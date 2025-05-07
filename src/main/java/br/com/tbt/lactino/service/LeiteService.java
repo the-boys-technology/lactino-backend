@@ -12,4 +12,6 @@ public interface LeiteService {
     LeiteDetalhadoResponse buscarLeite(UUID leiteId);
 
     LeiteDetalhadoResponse atualizarLeite(UUID id, AtualizarLeiteDTO leiteDTO);
+
+    LeiteDetalhadoResponse transformarLeite(UUID leiteId);
 }
