@@ -20,9 +20,10 @@ public class LeiteServiceImpl implements LeiteService {
     }
 
     @Override
-    public void salvarLeite(LeiteDTO leiteDTO) {
+    public UUID salvarLeite(LeiteDTO leiteDTO) {
         Leite leite = leiteDTO.toEntity();
         leiteRepository.save(leite);
+        return leite.getId();
     }
 
     @Override

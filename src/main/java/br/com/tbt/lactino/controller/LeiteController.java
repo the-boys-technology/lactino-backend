@@ -21,8 +21,8 @@ public class LeiteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void salvarLeite(@RequestBody @Valid LeiteDTO leiteDTO) {
-        leiteService.salvarLeite(leiteDTO);
+    public UUID salvarLeite(@RequestBody @Valid LeiteDTO leiteDTO) {
+        return leiteService.salvarLeite(leiteDTO);
     }
 
     @GetMapping("/{id}")

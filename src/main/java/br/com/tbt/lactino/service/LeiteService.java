@@ -6,7 +6,7 @@ import br.com.tbt.lactino.controller.response.LeiteDetalhadoResponse;
 import java.util.UUID;
 
 public interface LeiteService {
-    void salvarLeite(LeiteDTO leiteDTO);
+    UUID salvarLeite(LeiteDTO leiteDTO);
 
     LeiteDetalhadoResponse buscarLeite(UUID leiteId);
 }
