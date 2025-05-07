@@ -2,12 +2,18 @@ package br.com.tbt.lactino.model;
 
 import br.com.tbt.lactino.model.enums.TipoMovimentacaoEstoque;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "movimentacoes_estoque")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 public class MovimentacaoEstoque {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
