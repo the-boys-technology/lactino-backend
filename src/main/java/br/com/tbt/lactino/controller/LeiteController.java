@@ -1,5 +1,6 @@
 package br.com.tbt.lactino.controller;
 
+import br.com.tbt.lactino.controller.request.AtualizarLeiteDTO;
 import br.com.tbt.lactino.controller.request.LeiteDTO;
 import br.com.tbt.lactino.controller.response.LeiteDetalhadoResponse;
 import br.com.tbt.lactino.service.LeiteService;
@@ -29,5 +30,11 @@ public class LeiteController {
     @ResponseStatus(HttpStatus.OK)
     public LeiteDetalhadoResponse buscarLeite(@PathVariable UUID id) {
         return leiteService.buscarLeite(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public LeiteDetalhadoResponse atualizarLeite(@PathVariable UUID id, @RequestBody @Valid AtualizarLeiteDTO leiteDTO) {
+        return leiteService.atualizarLeite(id, leiteDTO);
     }
 }
