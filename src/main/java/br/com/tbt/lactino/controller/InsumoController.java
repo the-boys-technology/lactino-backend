@@ -28,4 +28,10 @@ public class InsumoController {
     InsumoResponse response = this.insumoService.buscarPorId(id);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deletarInsumo(@PathVariable(value = "id") String id) {
+    this.insumoService.deletarInsumo(id);
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
 }
