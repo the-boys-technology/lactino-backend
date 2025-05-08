@@ -37,12 +37,28 @@ public class InsumoServiceImpl implements InsumoService {
         dto.quantidadeTotal() > 0 ? StatusInsumoEnum.ATIVO : StatusInsumoEnum.ESGOTADO;
     novoInsumo.setStatus(status);
 
+    novoInsumo.setIsDeletado(Boolean.FALSE);
+
     Insumo insumoSalvo = this.insumoRepository.save(novoInsumo);
     return new CadastrarInsumoResponse(insumoSalvo.getId(), insumoSalvo.getNome());
   }
 
   @Override
   public InsumoResponse buscarPorId(String id) {
+    Insumo insumo = this.fetchInsumoById(id);
+
+    return new InsumoResponse(insumo);
+  }
+
+  @Override
+  public void deletarInsumo(String id) {
+    Insumo insumo = fetchInsumoById(id);
+
+    insumo.setIsDeletado(Boolean.TRUE);
+    this.insumoRepository.save(insumo);
+  }
+
+  private Insumo fetchInsumoById(String id) {
     UUID idInsumo;
 
     try {
@@ -52,15 +68,12 @@ public class InsumoServiceImpl implements InsumoService {
       throw new RuntimeException(erro);
     }
 
-    Insumo insumo =
-        this.insumoRepository
-            .findById(idInsumo)
-            .orElseThrow(
-                () -> {
-                  String erro = String.format("Não foi encontrado nenhum insumo com o ID %s", id);
-                  return new RuntimeException(erro);
-                });
-
-    return new InsumoResponse(insumo);
+    return this.insumoRepository
+        .findById(idInsumo)
+        .orElseThrow(
+            () -> {
+              String erro = String.format("Não foi encontrado nenhum insumo com o ID %s", id);
+              return new RuntimeException(erro);
+            });
   }
 }
