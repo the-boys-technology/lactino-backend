@@ -4,6 +4,7 @@ import br.com.tbt.lactino.model.enums.CategoriaInsumoEnum;
 import br.com.tbt.lactino.model.enums.StatusInsumoEnum;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "insumos")
+@Where(clause = "is_deletado = false")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -49,4 +51,7 @@ public class Insumo {
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private StatusInsumoEnum status;
+
+  @Column(nullable = false)
+  private Boolean isDeletado;
 }

@@ -8,4 +8,6 @@ public interface InsumoService {
   CadastrarInsumoResponse cadastrarInsumo(CadastrarInsumoDTO dto);
 
   InsumoResponse buscarPorId(String id);
+
+  void deletarInsumo(String id);
 }
