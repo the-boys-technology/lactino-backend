@@ -1,6 +1,7 @@
 package br.com.tbt.lactino.controller;
 
 import br.com.tbt.lactino.controller.request.LaticinioDTO;
+import br.com.tbt.lactino.controller.response.LaticinioDetalhadoResponse;
 import br.com.tbt.lactino.service.LaticinioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,5 +23,11 @@ public class LaticinioController {
     @ResponseStatus(HttpStatus.CREATED)
     public UUID salvarLaticinio(@RequestBody @Valid LaticinioDTO laticinioDTO) {
         return laticinioService.salvarLaticinio(laticinioDTO);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public LaticinioDetalhadoResponse buscarLaticinio(@PathVariable UUID id) {
+        return laticinioService.buscarLaticinio(id);
     }
 }

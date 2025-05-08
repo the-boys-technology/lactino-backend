@@ -1,6 +1,7 @@
 package br.com.tbt.lactino.service.impl;
 
 import br.com.tbt.lactino.controller.request.LaticinioDTO;
+import br.com.tbt.lactino.controller.response.LaticinioDetalhadoResponse;
 import br.com.tbt.lactino.model.Laticinio;
 import br.com.tbt.lactino.model.Leite;
 import br.com.tbt.lactino.repository.LaticinioRepository;
@@ -30,5 +31,12 @@ public class LaticinioServiceImpl implements LaticinioService {
         Laticinio laticinio = laticinioDTO.toEntity(leite);
         laticinioRepository.save(laticinio);
         return laticinio.getId();
+    }
+
+    @Override
+    public LaticinioDetalhadoResponse buscarLaticinio(UUID id) {
+        Laticinio laticinio = laticinioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Laticínio com ID " + id + " não encontrado."));
+        return new LaticinioDetalhadoResponse(laticinio);
     }
 }
