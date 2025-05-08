@@ -54,4 +54,13 @@ public class Laticinio {
             }
         }
     }
+
+    public Laticinio(String tipoProduto, BigDecimal quantidadeProduzida, LocalDate dataProducao, String descricao, StatusLaticinioEnum status, Leite leiteUtilizado) {
+        this.tipoProduto = tipoProduto;
+        this.quantidadeProduzida = quantidadeProduzida;
+        this.dataProducao = dataProducao;
+        this.descricao = descricao;
+        this.status = status;
+        this.leiteUtilizado = leiteUtilizado;
+    }
 }
