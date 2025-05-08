@@ -2,15 +2,13 @@ package br.com.tbt.lactino.controller;
 
 import br.com.tbt.lactino.controller.request.CadastrarInsumoDTO;
 import br.com.tbt.lactino.controller.response.CadastrarInsumoResponse;
+import br.com.tbt.lactino.controller.response.InsumoResponse;
 import br.com.tbt.lactino.service.InsumoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("insumos")
@@ -23,5 +21,11 @@ public class InsumoController {
       @RequestBody @Valid CadastrarInsumoDTO dto) {
     CadastrarInsumoResponse response = this.insumoService.cadastrarInsumo(dto);
     return ResponseEntity.status(HttpStatus.CREATED).body(response);
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<InsumoResponse> detalharInsumo(@PathVariable(value = "id") String id) {
+    InsumoResponse response = this.insumoService.buscarPorId(id);
+    return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 }
