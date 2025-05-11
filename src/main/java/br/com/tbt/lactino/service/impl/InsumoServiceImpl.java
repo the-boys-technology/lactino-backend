@@ -6,6 +6,7 @@ import br.com.tbt.lactino.controller.response.InsumoResponse;
 import br.com.tbt.lactino.model.Insumo;
 import br.com.tbt.lactino.model.enums.CategoriaInsumoEnum;
 import br.com.tbt.lactino.model.enums.StatusInsumoEnum;
+import br.com.tbt.lactino.model.enums.TipoMovimentacaoEstoque;
 import br.com.tbt.lactino.repository.InsumoRepository;
 import br.com.tbt.lactino.service.InsumoService;
 import lombok.RequiredArgsConstructor;
@@ -75,5 +76,26 @@ public class InsumoServiceImpl implements InsumoService {
               String erro = String.format("Não foi encontrado nenhum insumo com o ID %s", id);
               return new RuntimeException(erro);
             });
+  }
+
+  @Override
+  public Insumo buscarInsumo(UUID id) {
+    return fetchInsumoById(id.toString());
+  }
+
+  @Override
+  public void alterarQuantidade(
+      UUID id, Double quantidadeAlterar, TipoMovimentacaoEstoque tipoAlteracao) {
+    Insumo insumo = fetchInsumoById(id.toString());
+
+    if (tipoAlteracao == TipoMovimentacaoEstoque.ENTRADA) {
+      insumo.setQuantidadeTotal(insumo.getQuantidadeTotal() + quantidadeAlterar);
+    } else if (tipoAlteracao == TipoMovimentacaoEstoque.CONSUMO) {
+      insumo.setQuantidadeTotal(insumo.getQuantidadeTotal() - quantidadeAlterar);
+    } else if (tipoAlteracao == TipoMovimentacaoEstoque.AJUSTE) {
+      insumo.setQuantidadeTotal(quantidadeAlterar); // todo Validar se essa é realmente a lógica
+    }
+
+    this.insumoRepository.save(insumo);
   }
 }
