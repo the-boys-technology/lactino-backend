@@ -1,6 +1,7 @@
 package br.com.tbt.lactino.service.impl;
 
 import br.com.tbt.lactino.controller.request.RegistrarMovimentacaoDTO;
+import br.com.tbt.lactino.controller.response.MovimentacaoEstoqueResponse;
 import br.com.tbt.lactino.controller.response.RegistrarMovimentacaoResponse;
 import br.com.tbt.lactino.model.MovimentacaoEstoque;
 import br.com.tbt.lactino.model.enums.TipoMovimentacaoEstoque;
@@ -36,7 +37,7 @@ public class MovimentacaoEstoqueServiceImpl implements MovimentacaoEstoqueServic
     try {
       idInsumo = UUID.fromString(dto.idInsumo());
     } catch (IllegalArgumentException ex) {
-      String erro = String.format("O ID de insumo %s é inválido", ex);
+      String erro = String.format("O ID de insumo %s é inválido", dto.idInsumo());
       throw new RuntimeException(erro);
     }
 
@@ -54,5 +55,31 @@ public class MovimentacaoEstoqueServiceImpl implements MovimentacaoEstoqueServic
         .data(movimentacaoEstoqueSalva.getDataMovimentacao())
         .tipo(movimentacaoEstoqueSalva.getTipo().getDescricao())
         .build();
+  }
+
+  @Override
+  public MovimentacaoEstoqueResponse buscarMovimentacao(String id) {
+    MovimentacaoEstoque movimentacaoEstoque = fetchMovimentacao(id);
+    return new MovimentacaoEstoqueResponse(movimentacaoEstoque);
+  }
+
+  private MovimentacaoEstoque fetchMovimentacao(String id) {
+    UUID idMovimentacao;
+
+    try {
+      idMovimentacao = UUID.fromString(id);
+    } catch (IllegalArgumentException ex) {
+      String erro = String.format("O ID de movimentação %s é inválido", id);
+      throw new RuntimeException(erro);
+    }
+
+    return this.movimentacaoEstoqueRepository
+        .findById(idMovimentacao)
+        .orElseThrow(
+            () -> {
+              String erro =
+                  String.format("Não foi encontrada nenhuma movimentação com o ID %s", id);
+              return new RuntimeException(erro);
+            });
   }
 }
