@@ -1,5 +1,6 @@
 package br.com.tbt.lactino.service;
 
+import br.com.tbt.lactino.controller.request.AtualizarLaticinioDTO;
 import br.com.tbt.lactino.controller.request.LaticinioDTO;
 import br.com.tbt.lactino.controller.request.LaticinioFiltro;
 import br.com.tbt.lactino.controller.response.LaticinioDetalhadoResponse;
@@ -14,4 +15,6 @@ public interface LaticinioService {
     LaticinioDetalhadoResponse buscarLaticinio(UUID id);
 
     List<LaticinioDetalhadoResponse> listarLaticinios(LaticinioFiltro filtro);
+
+    LaticinioDetalhadoResponse atualizarLaticinio(UUID id, AtualizarLaticinioDTO laticinioDTO);
 }
