@@ -1,5 +1,6 @@
 package br.com.tbt.lactino.service.impl;
 
+import br.com.tbt.lactino.controller.request.AtualizarLaticinioDTO;
 import br.com.tbt.lactino.controller.request.LaticinioDTO;
 import br.com.tbt.lactino.controller.request.LaticinioFiltro;
 import br.com.tbt.lactino.controller.response.LaticinioDetalhadoResponse;
@@ -49,6 +50,31 @@ public class LaticinioServiceImpl implements LaticinioService {
                 .stream()
                 .map(LaticinioDetalhadoResponse::new)
                 .toList();
+    }
+
+    @Override
+    public LaticinioDetalhadoResponse atualizarLaticinio(UUID id, AtualizarLaticinioDTO laticinioDTO) {
+        Laticinio laticinio = laticinioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Laticínio com ID " + id + " não encontrado."));
+
+        if (laticinioDTO.tipoProduto() != null) laticinio.setTipoProduto(laticinioDTO.tipoProduto());
+        if (laticinioDTO.quantidadeProduzida() != null) laticinio.setQuantidadeProduzida(laticinioDTO.quantidadeProduzida());
+        if (laticinioDTO.dataProducao() != null) {
+            laticinio.setDataProducao(laticinioDTO.dataProducao());
+            laticinio.setDataValidade(null);
+            laticinio.calcularValidade();
+        }
+        if (laticinioDTO.descricao() != null) laticinio.setDescricao(laticinioDTO.descricao());
+        if (laticinioDTO.status() != null) laticinio.setStatus(laticinioDTO.status());
+
+        if (laticinioDTO.leiteUtilizadoId() != null) {
+            Leite leite = leiteRepository.findById(laticinioDTO.leiteUtilizadoId())
+                    .orElseThrow(() -> new EntityNotFoundException("Leite com ID " + laticinioDTO.leiteUtilizadoId() + " não encontrado."));
+            laticinio.setLeiteUtilizado(leite);
+        }
+
+        laticinioRepository.save(laticinio);
+        return new LaticinioDetalhadoResponse(laticinio);
     }
 
 }

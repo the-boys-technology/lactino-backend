@@ -1,5 +1,6 @@
 package br.com.tbt.lactino.controller;
 
+import br.com.tbt.lactino.controller.request.AtualizarLaticinioDTO;
 import br.com.tbt.lactino.controller.request.LaticinioDTO;
 import br.com.tbt.lactino.controller.request.LaticinioFiltro;
 import br.com.tbt.lactino.controller.response.LaticinioDetalhadoResponse;
@@ -37,5 +38,11 @@ public class LaticinioController {
     @ResponseStatus(HttpStatus.OK)
     public List<LaticinioDetalhadoResponse> listarLaticinios(@ModelAttribute LaticinioFiltro filtro) {
         return laticinioService.listarLaticinios(filtro);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public LaticinioDetalhadoResponse atualizarLaticinio(@PathVariable UUID id, @RequestBody @Valid AtualizarLaticinioDTO laticinioDTO) {
+        return laticinioService.atualizarLaticinio(id, laticinioDTO);
     }
 }
