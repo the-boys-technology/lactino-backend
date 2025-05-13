@@ -6,6 +6,7 @@ import br.com.tbt.lactino.controller.request.LaticinioFiltro;
 import br.com.tbt.lactino.controller.response.LaticinioDetalhadoResponse;
 import br.com.tbt.lactino.model.Laticinio;
 import br.com.tbt.lactino.model.Leite;
+import br.com.tbt.lactino.model.enums.StatusLaticinioEnum;
 import br.com.tbt.lactino.repository.LaticinioRepository;
 import br.com.tbt.lactino.repository.LeiteRepository;
 import br.com.tbt.lactino.repository.specifications.LaticinioSpecification;
@@ -13,6 +14,7 @@ import br.com.tbt.lactino.service.LaticinioService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -75,6 +77,19 @@ public class LaticinioServiceImpl implements LaticinioService {
 
         laticinioRepository.save(laticinio);
         return new LaticinioDetalhadoResponse(laticinio);
+    }
+
+    @Override
+    public List<LaticinioDetalhadoResponse> listarLaticiniosVencendo() {
+        LocalDate hoje = LocalDate.now();
+        LocalDate limite = hoje.plusDays(3);
+
+        List<Laticinio> laticinios = laticinioRepository
+                .findByStatusAndDataValidadeBetween(StatusLaticinioEnum.EM_ESTOQUE, hoje, limite);
+
+        return laticinios.stream()
+                .map(LaticinioDetalhadoResponse::new)
+                .toList();
     }
 
 }
