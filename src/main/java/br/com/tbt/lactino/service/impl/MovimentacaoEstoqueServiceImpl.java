@@ -1,14 +1,19 @@
 package br.com.tbt.lactino.service.impl;
 
+import br.com.tbt.lactino.controller.request.MovimentacaoFiltro;
 import br.com.tbt.lactino.controller.request.RegistrarMovimentacaoDTO;
 import br.com.tbt.lactino.controller.response.MovimentacaoEstoqueResponse;
 import br.com.tbt.lactino.controller.response.RegistrarMovimentacaoResponse;
 import br.com.tbt.lactino.model.MovimentacaoEstoque;
 import br.com.tbt.lactino.model.enums.TipoMovimentacaoEstoque;
 import br.com.tbt.lactino.repository.MovimentacaoEstoqueRepository;
+import br.com.tbt.lactino.repository.specifications.MovimentacaoSpecification;
 import br.com.tbt.lactino.service.InsumoService;
 import br.com.tbt.lactino.service.MovimentacaoEstoqueService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,5 +86,14 @@ public class MovimentacaoEstoqueServiceImpl implements MovimentacaoEstoqueServic
                   String.format("Não foi encontrada nenhuma movimentação com o ID %s", id);
               return new RuntimeException(erro);
             });
+  }
+
+  @Override
+  public Page<MovimentacaoEstoqueResponse> listarMovimentacoes(
+      MovimentacaoFiltro filtro, Pageable pageable) {
+    Specification<MovimentacaoEstoque> specification = MovimentacaoSpecification.comFiltros(filtro);
+    Page<MovimentacaoEstoque> response =
+        this.movimentacaoEstoqueRepository.findAll(specification, pageable);
+    return response.map(MovimentacaoEstoqueResponse::new);
   }
 }
