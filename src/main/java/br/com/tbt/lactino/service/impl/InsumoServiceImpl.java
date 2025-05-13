@@ -1,6 +1,7 @@
 package br.com.tbt.lactino.service.impl;
 
 import br.com.tbt.lactino.controller.request.CadastrarInsumoDTO;
+import br.com.tbt.lactino.controller.request.InsumoFiltro;
 import br.com.tbt.lactino.controller.response.CadastrarInsumoResponse;
 import br.com.tbt.lactino.controller.response.InsumoResponse;
 import br.com.tbt.lactino.model.Insumo;
@@ -8,8 +9,12 @@ import br.com.tbt.lactino.model.enums.CategoriaInsumoEnum;
 import br.com.tbt.lactino.model.enums.StatusInsumoEnum;
 import br.com.tbt.lactino.model.enums.TipoMovimentacaoEstoque;
 import br.com.tbt.lactino.repository.InsumoRepository;
+import br.com.tbt.lactino.repository.specifications.InsumoSpecification;
 import br.com.tbt.lactino.service.InsumoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -97,5 +102,13 @@ public class InsumoServiceImpl implements InsumoService {
     }
 
     this.insumoRepository.save(insumo);
+  }
+
+  @Override
+  public Page<InsumoResponse> listarInsumos(InsumoFiltro filtro, Pageable pageable) {
+    Specification<Insumo> spec = InsumoSpecification.comFiltros(filtro);
+    Page<Insumo> respostaInsumos = this.insumoRepository.findAll(spec, pageable);
+
+    return respostaInsumos.map(InsumoResponse::new);
   }
 }
