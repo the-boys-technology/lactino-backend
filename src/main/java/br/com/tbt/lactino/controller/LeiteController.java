@@ -51,4 +51,10 @@ public class LeiteController {
     public List<LeiteDetalhadoResponse> listarLeites(@ModelAttribute LeiteFiltro filtro) {
         return leiteService.listarLeitesComFiltro(filtro);
     }
+
+    @GetMapping("/vencendo")
+    @ResponseStatus(HttpStatus.OK)
+    public List<LeiteDetalhadoResponse> listarLeitesVencendo() {
+        return leiteService.listarLeitesVencendo();
+    }
 }
