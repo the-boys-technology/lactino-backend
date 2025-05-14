@@ -45,4 +45,10 @@ public class LaticinioController {
     public LaticinioDetalhadoResponse atualizarLaticinio(@PathVariable UUID id, @RequestBody @Valid AtualizarLaticinioDTO laticinioDTO) {
         return laticinioService.atualizarLaticinio(id, laticinioDTO);
     }
+
+    @GetMapping("/vencendo")
+    @ResponseStatus(HttpStatus.OK)
+    public List<LaticinioDetalhadoResponse> listarLaticiniosVencendo() {
+        return laticinioService.listarLaticiniosVencendo();
+    }
 }
