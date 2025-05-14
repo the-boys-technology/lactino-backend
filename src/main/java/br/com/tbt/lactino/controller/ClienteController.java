@@ -19,7 +19,6 @@ import java.util.UUID;
 @RequestMapping("cliente")
 public class ClienteController {
 
-    @Autowired
     private final ClienteService clienteService;
 
     @PostMapping
