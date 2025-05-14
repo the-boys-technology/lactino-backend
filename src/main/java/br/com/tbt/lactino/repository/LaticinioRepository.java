@@ -15,4 +15,6 @@ public interface LaticinioRepository extends JpaRepository<Laticinio, UUID>, Jpa
     Optional<Laticinio> findById(UUID id);
 
     List<Laticinio> findByStatusAndDataValidadeBetween(StatusLaticinioEnum status, LocalDate inicio, LocalDate fim);
+
+    List<Laticinio> findByStatus(StatusLaticinioEnum status);
 }
