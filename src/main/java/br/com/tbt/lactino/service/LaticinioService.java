@@ -17,4 +17,6 @@ public interface LaticinioService {
     List<LaticinioDetalhadoResponse> listarLaticinios(LaticinioFiltro filtro);
 
     LaticinioDetalhadoResponse atualizarLaticinio(UUID id, AtualizarLaticinioDTO laticinioDTO);
+
+    List<LaticinioDetalhadoResponse> listarLaticiniosVencendo();
 }
