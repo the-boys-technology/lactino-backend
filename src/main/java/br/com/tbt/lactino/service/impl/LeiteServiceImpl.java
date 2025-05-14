@@ -10,6 +10,7 @@ import br.com.tbt.lactino.repository.LeiteRepository;
 import br.com.tbt.lactino.repository.specifications.LeiteSpecification;
 import br.com.tbt.lactino.service.LeiteService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -89,5 +90,22 @@ public class LeiteServiceImpl implements LeiteService {
         return leites.stream()
                 .map(LeiteDetalhadoResponse::new)
                 .toList();
+    }
+
+    @Scheduled(fixedDelay = 300000) // 5 minutos
+    public void atualizarStatusLeite() {
+        LocalDate hoje = LocalDate.now();
+
+        List<Leite> leitesDisponiveis = leiteRepository.findByStatus(StatusLeiteEnum.DISPONIVEL);
+
+        List<Leite> leitesVencidos = leitesDisponiveis.stream()
+                .filter(leite -> leite.getDataValidade().isBefore(hoje))
+                .peek(leite -> leite.setStatus(StatusLeiteEnum.VENCIDO))
+                .toList();
+
+        if (!leitesVencidos.isEmpty()) {
+            leiteRepository.saveAll(leitesVencidos);
+            System.out.println("Leites atualizados como VENCIDO: " + leitesVencidos.size());
+        }
     }
 }
