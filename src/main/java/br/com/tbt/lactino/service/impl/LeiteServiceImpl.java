@@ -12,6 +12,7 @@ import br.com.tbt.lactino.service.LeiteService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -75,5 +76,18 @@ public class LeiteServiceImpl implements LeiteService {
                 .stream()
                 .map(LeiteDetalhadoResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<LeiteDetalhadoResponse> listarLeitesVencendo() {
+        LocalDate hoje = LocalDate.now();
+        LocalDate limite = hoje.plusDays(3);
+
+        List<Leite> leites = leiteRepository.findByStatusAndDataValidadeLessThanEqual(
+                StatusLeiteEnum.DISPONIVEL, limite);
+
+        return leites.stream()
+                .map(LeiteDetalhadoResponse::new)
+                .toList();
     }
 }

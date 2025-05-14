@@ -18,4 +18,6 @@ public interface LeiteService {
     LeiteDetalhadoResponse transformarLeite(UUID leiteId);
 
     List<LeiteDetalhadoResponse> listarLeitesComFiltro(LeiteFiltro filtro);
+
+    List<LeiteDetalhadoResponse> listarLeitesVencendo();
 }
