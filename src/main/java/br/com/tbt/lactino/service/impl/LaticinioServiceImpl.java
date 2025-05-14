@@ -12,6 +12,7 @@ import br.com.tbt.lactino.repository.LeiteRepository;
 import br.com.tbt.lactino.repository.specifications.LaticinioSpecification;
 import br.com.tbt.lactino.service.LaticinioService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -92,4 +93,20 @@ public class LaticinioServiceImpl implements LaticinioService {
                 .toList();
     }
 
+    @Scheduled(fixedDelay = 300000) // 5 minutos
+    public void atualizarStatusLaticinios() {
+        LocalDate hoje = LocalDate.now();
+
+        List<Laticinio> laticiniosEmEstoque = laticinioRepository.findByStatus(StatusLaticinioEnum.EM_ESTOQUE);
+
+        List<Laticinio> vencidos = laticiniosEmEstoque.stream()
+                .filter(l -> l.getDataValidade().isBefore(hoje))
+                .peek(l -> l.setStatus(StatusLaticinioEnum.VENCIDO))
+                .toList();
+
+        if (!vencidos.isEmpty()) {
+            laticinioRepository.saveAll(vencidos);
+            System.out.println("Laticínios atualizados como VENCIDO: " + vencidos.size());
+        }
+    }
 }
