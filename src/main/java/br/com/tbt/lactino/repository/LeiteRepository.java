@@ -15,4 +15,7 @@ public interface LeiteRepository extends JpaRepository<Leite, UUID> , JpaSpecifi
     Optional<Leite> findById(UUID id);
 
     List<Leite> findByStatusAndDataValidadeLessThanEqual(StatusLeiteEnum status, LocalDate dataLimite);
+
+    List<Leite> findByStatus(StatusLeiteEnum status);
+
 }
