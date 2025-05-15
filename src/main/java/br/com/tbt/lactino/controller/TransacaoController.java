@@ -53,4 +53,28 @@ public class TransacaoController {
     public TransacaoResponse registrarTransacao(@RequestBody @Valid TransacaoDTO transacaoDTO) {
         return transacaoService.registrarTransacao(transacaoDTO);
     }
+
+    /**
+     * Endpoint para atualizar uma transação existente.
+     *
+     * @param id ID da transação
+     * @param transacaoDTO Dados atualizados da transação
+     * @return Detalhes da transação atualizada
+     */
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public TransacaoResponse atualizarTransacao(@PathVariable Long id, @RequestBody @Valid TransacaoDTO transacaoDTO) {
+        return transacaoService.atualizarTransacao(id, transacaoDTO);
+    }
+
+    /**
+     * Endpoint para remover uma transação existente.
+     *
+     * @param id ID da transação
+     */
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void removerTransacao(@PathVariable Long id) {
+        transacaoService.removerTransacao(id);
+    }
 }

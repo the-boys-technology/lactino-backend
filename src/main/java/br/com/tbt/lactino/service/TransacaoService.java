@@ -20,4 +20,14 @@ public interface TransacaoService {
      * Registra uma nova transação de compra ou venda.
      */
     TransacaoResponse registrarTransacao(TransacaoDTO transacaoDTO);
+
+    /**
+     * Atualiza uma transação existente.
+     */
+    TransacaoResponse atualizarTransacao(Long transacaoId, TransacaoDTO transacaoDTO);
+
+    /**
+     * Remove uma transação do sistema.
+     */
+    void removerTransacao(Long transacaoId);
 }
