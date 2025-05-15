@@ -1,5 +1,6 @@
 package br.com.tbt.lactino.service.impl;
 
+import br.com.tbt.lactino.controller.request.AtualizarInsumoDTO;
 import br.com.tbt.lactino.controller.request.CadastrarInsumoDTO;
 import br.com.tbt.lactino.controller.request.InsumoFiltro;
 import br.com.tbt.lactino.controller.response.CadastrarInsumoResponse;
@@ -110,5 +111,33 @@ public class InsumoServiceImpl implements InsumoService {
     Page<Insumo> respostaInsumos = this.insumoRepository.findAll(spec, pageable);
 
     return respostaInsumos.map(InsumoResponse::new);
+  }
+
+  @Override
+  public void atualizarInsumo(String id, AtualizarInsumoDTO dto) {
+    Insumo insumo = fetchInsumoById(id);
+
+    if (dto.validade() != null) {
+      insumo.setValidade(dto.validade());
+    }
+
+    if (dto.quantidadeMinima() != null) {
+      insumo.setQuantidadeMinima(dto.quantidadeMinima());
+    }
+
+    if (dto.status() != null && !dto.status().isBlank()) {
+      StatusInsumoEnum status;
+
+      try {
+        status = StatusInsumoEnum.valueOf(dto.status());
+      } catch (IllegalArgumentException ex) {
+        String erro = String.format("O status %s é inválido", dto.status());
+        throw new RuntimeException(erro);
+      }
+
+      insumo.setStatus(status);
+    }
+
+    this.insumoRepository.save(insumo);
   }
 }
