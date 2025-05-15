@@ -50,4 +50,32 @@ public class TransacaoServiceImpl implements TransacaoService {
 
         return new TransacaoResponse(transacaoSalva);
     }
+
+    @Override
+    public TransacaoResponse atualizarTransacao(Long transacaoId, TransacaoDTO transacaoDTO) {
+        Transacao transacaoExistente = transacaoRepository.findById(transacaoId)
+                .orElseThrow(() -> new RuntimeException("Transação não encontrada"));
+
+        transacaoExistente.setTipo(transacaoDTO.tipo());
+        transacaoExistente.setData(transacaoDTO.data());
+        transacaoExistente.setValorTotal(transacaoDTO.valorTotal());
+        transacaoExistente.setFormaPagamento(transacaoDTO.formaPagamento());
+        transacaoExistente.setClienteId(transacaoDTO.clienteId());
+        transacaoExistente.setFornecedorId(transacaoDTO.fornecedorId());
+        transacaoExistente.setLeiteId(transacaoDTO.leiteId());
+        transacaoExistente.setLaticinioId(transacaoDTO.laticinioId());
+        transacaoExistente.setDescricao(transacaoDTO.descricao());
+
+        Transacao atualizada = transacaoRepository.save(transacaoExistente);
+
+        return new TransacaoResponse(atualizada);
+    }
+
+    @Override
+    public void removerTransacao(Long transacaoId) {
+        Transacao transacao = transacaoRepository.findById(transacaoId)
+                .orElseThrow(() -> new RuntimeException("Transação não encontrada"));
+        transacaoRepository.delete(transacao);
+    }
+
 }
