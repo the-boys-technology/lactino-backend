@@ -1,5 +1,6 @@
 package br.com.tbt.lactino.service;
 
+import br.com.tbt.lactino.controller.request.AtualizarInsumoDTO;
 import br.com.tbt.lactino.controller.request.CadastrarInsumoDTO;
 import br.com.tbt.lactino.controller.request.InsumoFiltro;
 import br.com.tbt.lactino.controller.response.CadastrarInsumoResponse;
@@ -23,4 +24,6 @@ public interface InsumoService {
   void alterarQuantidade(UUID id, Double quantidadeAlterar, TipoMovimentacaoEstoque tipoAlteracao);
 
   Page<InsumoResponse> listarInsumos(InsumoFiltro filtro, Pageable pageable);
+
+  void atualizarInsumo(String id, AtualizarInsumoDTO dto);
 }

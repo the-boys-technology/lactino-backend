@@ -1,5 +1,6 @@
 package br.com.tbt.lactino.controller;
 
+import br.com.tbt.lactino.controller.request.AtualizarInsumoDTO;
 import br.com.tbt.lactino.controller.request.CadastrarInsumoDTO;
 import br.com.tbt.lactino.controller.request.InsumoFiltro;
 import br.com.tbt.lactino.controller.response.CadastrarInsumoResponse;
@@ -17,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("insumos")
+@RequestMapping("/insumos")
 @RequiredArgsConstructor
 public class InsumoController {
   private final InsumoService insumoService;
@@ -53,6 +54,13 @@ public class InsumoController {
   public ResponseEntity<InsumoResponse> detalharInsumo(@PathVariable(value = "id") String id) {
     InsumoResponse response = this.insumoService.buscarPorId(id);
     return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Void> atualizarInsumo(
+      @PathVariable(value = "id") String id, @RequestBody AtualizarInsumoDTO dto) {
+    this.insumoService.atualizarInsumo(id, dto);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @DeleteMapping("/{id}")
