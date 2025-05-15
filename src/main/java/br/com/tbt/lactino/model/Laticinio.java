@@ -33,7 +33,7 @@ public class Laticinio {
     @Column(nullable = false)
     private LocalDate dataValidade;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "leite_utilizado_id", nullable = false)
     private Leite leiteUtilizado;
 
