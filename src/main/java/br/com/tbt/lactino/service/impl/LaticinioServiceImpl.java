@@ -95,6 +95,7 @@ public class LaticinioServiceImpl implements LaticinioService {
 
     @Scheduled(fixedDelay = 300000) // 5 minutos
     public void atualizarStatusLaticinios() {
+        System.out.printf("EXECUTANDO: atualizarStatusLaticinios");
         LocalDate hoje = LocalDate.now();
 
         List<Laticinio> laticiniosEmEstoque = laticinioRepository.findByStatus(StatusLaticinioEnum.EM_ESTOQUE);
