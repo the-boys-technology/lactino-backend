@@ -94,6 +94,7 @@ public class LeiteServiceImpl implements LeiteService {
 
     @Scheduled(fixedDelay = 300000) // 5 minutos
     public void atualizarStatusLeite() {
+        System.out.printf("EXECUTANDO: atualizarStatusLeite");
         LocalDate hoje = LocalDate.now();
 
         List<Leite> leitesDisponiveis = leiteRepository.findByStatus(StatusLeiteEnum.DISPONIVEL);
