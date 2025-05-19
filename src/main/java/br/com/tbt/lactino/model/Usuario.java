@@ -43,6 +43,13 @@ public class Usuario implements UserDetails {
     @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
+    public Usuario(String nome, String email, String senha, UserRole role) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN) {
