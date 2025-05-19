@@ -20,7 +20,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void criarUsuario(RegistroDTO dto) {
-        if (usuarioRepository.findByEmail(dto.email()).isPresent()) throw new RuntimeException("Email já existe!");
+        if (usuarioRepository.findByEmail(dto.email()) != null) throw new RuntimeException("Email já existe!");
         Usuario usuario = dto.toEntity();
         usuario.setSenha(passwordEncoder.encode(dto.senha()));
         usuarioRepository.save(usuario);

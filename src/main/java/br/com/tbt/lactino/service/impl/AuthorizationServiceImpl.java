@@ -17,7 +17,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return usuarioRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com e-mail: " + username));
+        return usuarioRepository.findByEmail(username);
     }
 }
