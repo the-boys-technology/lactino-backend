@@ -53,8 +53,15 @@ public class LaticinioServiceImpl implements LaticinioService {
     }
 
     @Override
-    public List<LaticinioDetalhadoResponse> listarLaticinios(LaticinioFiltro filtro) {
-        return laticinioRepository.findAll(LaticinioSpecification.filtrar(filtro))
+    public List<LaticinioDetalhadoResponse> listarLaticinios(String email, LaticinioFiltro filtro) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        LaticinioFiltro filtroComUsuario = new LaticinioFiltro(
+                filtro.tipo(),
+                filtro.status(),
+                filtro.leiteUtilizadoId(),
+                usuario
+        );
+        return laticinioRepository.findAll(LaticinioSpecification.filtrar(filtroComUsuario))
                 .stream()
                 .map(LaticinioDetalhadoResponse::new)
                 .toList();

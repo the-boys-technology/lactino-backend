@@ -41,8 +41,9 @@ public class LaticinioController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<LaticinioDetalhadoResponse> listarLaticinios(@ModelAttribute LaticinioFiltro filtro) {
-        return laticinioService.listarLaticinios(filtro);
+    public List<LaticinioDetalhadoResponse> listarLaticinios(HttpServletRequest request, @ModelAttribute LaticinioFiltro filtro) {
+        String email = tokenService.validarToken(request.getHeader("Authorization").substring(7));
+        return laticinioService.listarLaticinios(email, filtro);
     }
 
     @PutMapping("/{id}")
