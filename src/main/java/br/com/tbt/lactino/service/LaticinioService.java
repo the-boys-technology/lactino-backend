@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface LaticinioService {
 
-    UUID salvarLaticinio(LaticinioDTO laticinioDTO);
+    UUID salvarLaticinio(String email, LaticinioDTO laticinioDTO);
 
     LaticinioDetalhadoResponse buscarLaticinio(UUID id);
 
