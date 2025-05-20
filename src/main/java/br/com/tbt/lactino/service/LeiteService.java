@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface LeiteService {
-    UUID salvarLeite(LeiteDTO leiteDTO);
+    UUID salvarLeite(String email, LeiteDTO leiteDTO);
 
     LeiteDetalhadoResponse buscarLeite(UUID leiteId);
 
@@ -17,7 +17,7 @@ public interface LeiteService {
 
     LeiteDetalhadoResponse transformarLeite(UUID leiteId);
 
-    List<LeiteDetalhadoResponse> listarLeitesComFiltro(LeiteFiltro filtro);
+    List<LeiteDetalhadoResponse> listarLeitesComFiltro(String email, LeiteFiltro filtro);
 
-    List<LeiteDetalhadoResponse> listarLeitesVencendo();
+    List<LeiteDetalhadoResponse> listarLeitesVencendo(String email);
 }

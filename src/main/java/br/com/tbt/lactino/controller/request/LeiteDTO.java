@@ -1,6 +1,7 @@
 package br.com.tbt.lactino.controller.request;
 
 import br.com.tbt.lactino.model.Leite;
+import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.model.enums.StatusLeiteEnum;
 import br.com.tbt.lactino.model.enums.TurnoEnum;
 import jakarta.validation.constraints.*;
@@ -33,7 +34,7 @@ public record LeiteDTO(
         String fornecedorId
 ) {
 
-    public Leite toEntity(){
-        return new Leite(nome, descricao, dataObtencao, origem, turno, status, finalidade, fornecedorId);
+    public Leite toEntity(Usuario usuario) {
+        return new Leite(nome, descricao, dataObtencao, origem, turno, status, finalidade, fornecedorId, usuario);
     }
 }

@@ -6,9 +6,11 @@ import br.com.tbt.lactino.controller.request.LaticinioFiltro;
 import br.com.tbt.lactino.controller.response.LaticinioDetalhadoResponse;
 import br.com.tbt.lactino.model.Laticinio;
 import br.com.tbt.lactino.model.Leite;
+import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.model.enums.StatusLaticinioEnum;
 import br.com.tbt.lactino.repository.LaticinioRepository;
 import br.com.tbt.lactino.repository.LeiteRepository;
+import br.com.tbt.lactino.repository.UsuarioRepository;
 import br.com.tbt.lactino.repository.specifications.LaticinioSpecification;
 import br.com.tbt.lactino.service.LaticinioService;
 import jakarta.persistence.EntityNotFoundException;
@@ -24,18 +26,21 @@ public class LaticinioServiceImpl implements LaticinioService {
 
     private final LaticinioRepository laticinioRepository;
     private final LeiteRepository leiteRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public LaticinioServiceImpl(LaticinioRepository laticinioRepository, LeiteRepository leiteRepository) {
+    public LaticinioServiceImpl(LaticinioRepository laticinioRepository, LeiteRepository leiteRepository, UsuarioRepository usuarioRepository) {
         this.laticinioRepository = laticinioRepository;
         this.leiteRepository = leiteRepository;
+        this.usuarioRepository = usuarioRepository;
     }
 
     @Override
-    public UUID salvarLaticinio(LaticinioDTO laticinioDTO) {
+    public UUID salvarLaticinio(String email, LaticinioDTO laticinioDTO) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
         Leite leite = leiteRepository.findById(laticinioDTO.leiteUtilizadoId())
                 .orElseThrow(() -> new EntityNotFoundException("Leite com ID " + laticinioDTO.leiteUtilizadoId() + " não encontrado."));
 
-        Laticinio laticinio = laticinioDTO.toEntity(leite);
+        Laticinio laticinio = laticinioDTO.toEntity(leite, usuario);
         laticinioRepository.save(laticinio);
         return laticinio.getId();
     }
@@ -48,8 +53,15 @@ public class LaticinioServiceImpl implements LaticinioService {
     }
 
     @Override
-    public List<LaticinioDetalhadoResponse> listarLaticinios(LaticinioFiltro filtro) {
-        return laticinioRepository.findAll(LaticinioSpecification.filtrar(filtro))
+    public List<LaticinioDetalhadoResponse> listarLaticinios(String email, LaticinioFiltro filtro) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        LaticinioFiltro filtroComUsuario = new LaticinioFiltro(
+                filtro.tipo(),
+                filtro.status(),
+                filtro.leiteUtilizadoId(),
+                usuario
+        );
+        return laticinioRepository.findAll(LaticinioSpecification.filtrar(filtroComUsuario))
                 .stream()
                 .map(LaticinioDetalhadoResponse::new)
                 .toList();
@@ -81,12 +93,14 @@ public class LaticinioServiceImpl implements LaticinioService {
     }
 
     @Override
-    public List<LaticinioDetalhadoResponse> listarLaticiniosVencendo() {
+    public List<LaticinioDetalhadoResponse> listarLaticiniosVencendo(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+
         LocalDate hoje = LocalDate.now();
         LocalDate limite = hoje.plusDays(3);
 
         List<Laticinio> laticinios = laticinioRepository
-                .findByStatusAndDataValidadeBetween(StatusLaticinioEnum.EM_ESTOQUE, hoje, limite);
+                .findByUsuarioAndStatusAndDataValidadeBetween(usuario, StatusLaticinioEnum.EM_ESTOQUE, hoje, limite);
 
         return laticinios.stream()
                 .map(LaticinioDetalhadoResponse::new)
