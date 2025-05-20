@@ -78,8 +78,15 @@ public class LeiteServiceImpl implements LeiteService {
     }
 
     @Override
-    public List<LeiteDetalhadoResponse> listarLeitesComFiltro(LeiteFiltro filtro) {
-        return leiteRepository.findAll(LeiteSpecification.filtrar(filtro))
+    public List<LeiteDetalhadoResponse> listarLeitesComFiltro(String email, LeiteFiltro filtro) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+        LeiteFiltro filtroComUsuario = new LeiteFiltro(
+                filtro.status(),
+                filtro.origem(),
+                filtro.turno(),
+                usuario
+        );
+        return leiteRepository.findAll(LeiteSpecification.filtrar(filtroComUsuario))
                 .stream()
                 .map(LeiteDetalhadoResponse::new)
                 .collect(Collectors.toList());

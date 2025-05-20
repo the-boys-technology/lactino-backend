@@ -53,8 +53,9 @@ public class LeiteController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<LeiteDetalhadoResponse> listarLeites(@ModelAttribute LeiteFiltro filtro) {
-        return leiteService.listarLeitesComFiltro(filtro);
+    public List<LeiteDetalhadoResponse> listarLeites(HttpServletRequest request, @ModelAttribute LeiteFiltro filtro) {
+        String email = tokenService.validarToken(request.getHeader("Authorization").substring(7));
+        return leiteService.listarLeitesComFiltro(email, filtro);
     }
 
     @GetMapping("/vencendo")
