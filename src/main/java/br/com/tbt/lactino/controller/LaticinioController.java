@@ -54,7 +54,8 @@ public class LaticinioController {
 
     @GetMapping("/vencendo")
     @ResponseStatus(HttpStatus.OK)
-    public List<LaticinioDetalhadoResponse> listarLaticiniosVencendo() {
-        return laticinioService.listarLaticiniosVencendo();
+    public List<LaticinioDetalhadoResponse> listarLaticiniosVencendo(HttpServletRequest request) {
+        String email = tokenService.validarToken(request.getHeader("Authorization").substring(7));
+        return laticinioService.listarLaticiniosVencendo(email);
     }
 }

@@ -93,12 +93,14 @@ public class LaticinioServiceImpl implements LaticinioService {
     }
 
     @Override
-    public List<LaticinioDetalhadoResponse> listarLaticiniosVencendo() {
+    public List<LaticinioDetalhadoResponse> listarLaticiniosVencendo(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+
         LocalDate hoje = LocalDate.now();
         LocalDate limite = hoje.plusDays(3);
 
         List<Laticinio> laticinios = laticinioRepository
-                .findByStatusAndDataValidadeBetween(StatusLaticinioEnum.EM_ESTOQUE, hoje, limite);
+                .findByUsuarioAndStatusAndDataValidadeBetween(usuario, StatusLaticinioEnum.EM_ESTOQUE, hoje, limite);
 
         return laticinios.stream()
                 .map(LaticinioDetalhadoResponse::new)
