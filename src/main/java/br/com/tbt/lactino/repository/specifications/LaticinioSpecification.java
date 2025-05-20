@@ -14,6 +14,8 @@ public class LaticinioSpecification {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
+            predicates.add(builder.equal(root.get("usuario"), filtro.usuario()));
+
             if (filtro.tipo() != null && !filtro.tipo().isBlank()) {
                 predicates.add(builder.like(builder.lower(root.get("tipoProduto")), "%" + filtro.tipo().toLowerCase() + "%"));
             }
