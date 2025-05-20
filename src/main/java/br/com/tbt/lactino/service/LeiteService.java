@@ -19,5 +19,5 @@ public interface LeiteService {
 
     List<LeiteDetalhadoResponse> listarLeitesComFiltro(String email, LeiteFiltro filtro);
 
-    List<LeiteDetalhadoResponse> listarLeitesVencendo();
+    List<LeiteDetalhadoResponse> listarLeitesVencendo(String email);
 }

@@ -93,12 +93,14 @@ public class LeiteServiceImpl implements LeiteService {
     }
 
     @Override
-    public List<LeiteDetalhadoResponse> listarLeitesVencendo() {
+    public List<LeiteDetalhadoResponse> listarLeitesVencendo(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email);
+
         LocalDate hoje = LocalDate.now();
         LocalDate limite = hoje.plusDays(3);
 
-        List<Leite> leites = leiteRepository.findByStatusAndDataValidadeLessThanEqual(
-                StatusLeiteEnum.DISPONIVEL, limite);
+        List<Leite> leites = leiteRepository.findByUsuarioAndStatusAndDataValidadeLessThanEqual(
+                usuario, StatusLeiteEnum.DISPONIVEL, limite);
 
         return leites.stream()
                 .map(LeiteDetalhadoResponse::new)

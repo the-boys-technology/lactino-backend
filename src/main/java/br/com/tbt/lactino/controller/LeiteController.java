@@ -60,7 +60,8 @@ public class LeiteController {
 
     @GetMapping("/vencendo")
     @ResponseStatus(HttpStatus.OK)
-    public List<LeiteDetalhadoResponse> listarLeitesVencendo() {
-        return leiteService.listarLeitesVencendo();
+    public List<LeiteDetalhadoResponse> listarLeitesVencendo(HttpServletRequest request) {
+        String email = tokenService.validarToken(request.getHeader("Authorization").substring(7));
+        return leiteService.listarLeitesVencendo(email);
     }
 }
