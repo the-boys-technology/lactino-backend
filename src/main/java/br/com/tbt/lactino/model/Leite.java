@@ -44,6 +44,10 @@ public class Leite {
 
     private String finalidade;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     // refatorar para ser a entidade FORNECEDOR
     private String fornecedor;
 
