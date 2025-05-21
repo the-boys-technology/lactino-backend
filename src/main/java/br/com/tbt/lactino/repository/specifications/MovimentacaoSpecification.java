@@ -29,6 +29,10 @@ public class MovimentacaoSpecification {
         predicates.add(cb.equal(root.get("insumo").get("id"), filtro.insumoID()));
       }
 
+      if (filtro.usuario() != null) {
+        predicates.add(cb.equal(root.get("insumo").get("usuario"), filtro.usuario()));
+      }
+
       return cb.and(predicates.toArray(new Predicate[0]));
     };
   }
