@@ -31,6 +31,10 @@ public class InsumoSpecification {
         predicados.add(cb.lessThan(root.get("quantidadeTotal"), root.get("quantidadeMinima")));
       }
 
+      if (filtro.usuario() != null) {
+        predicados.add(cb.equal(root.get("usuario"), filtro.usuario()));
+      }
+
       return cb.and(predicados.toArray(new Predicate[0]));
     };
   }

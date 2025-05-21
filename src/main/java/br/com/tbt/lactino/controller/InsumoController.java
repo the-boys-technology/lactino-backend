@@ -38,7 +38,8 @@ public class InsumoController {
       @RequestParam(required = false) CategoriaInsumoEnum categoria,
       @RequestParam(required = false) StatusInsumoEnum status,
       @RequestParam(required = false, name = "em_baixo_estoque") Boolean emBaixoEstoque,
-      Pageable pageable) {
+      Pageable pageable,
+      @AuthenticationPrincipal Usuario usuario) {
 
     InsumoFiltro filtro =
         InsumoFiltro.builder()
@@ -46,6 +47,7 @@ public class InsumoController {
             .categoria(categoria)
             .status(status)
             .emBaixoEstoque(emBaixoEstoque)
+            .usuario(usuario)
             .build();
 
     Page<InsumoResponse> response = this.insumoService.listarInsumos(filtro, pageable);
