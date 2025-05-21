@@ -6,6 +6,7 @@ import br.com.tbt.lactino.controller.request.InsumoFiltro;
 import br.com.tbt.lactino.controller.response.CadastrarInsumoResponse;
 import br.com.tbt.lactino.controller.response.InsumoResponse;
 import br.com.tbt.lactino.model.Insumo;
+import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.model.enums.CategoriaInsumoEnum;
 import br.com.tbt.lactino.model.enums.StatusInsumoEnum;
 import br.com.tbt.lactino.model.enums.TipoMovimentacaoEstoque;
@@ -28,7 +29,7 @@ public class InsumoServiceImpl implements InsumoService {
 
   @Override
   @Transactional
-  public CadastrarInsumoResponse cadastrarInsumo(CadastrarInsumoDTO dto) {
+  public CadastrarInsumoResponse cadastrarInsumo(Usuario usuario, CadastrarInsumoDTO dto) {
     Insumo novoInsumo = dto.toEntity();
     CategoriaInsumoEnum categoria;
 
@@ -45,6 +46,7 @@ public class InsumoServiceImpl implements InsumoService {
     novoInsumo.setStatus(status);
 
     novoInsumo.setIsDeletado(Boolean.FALSE);
+    novoInsumo.setUsuario(usuario);
 
     Insumo insumoSalvo = this.insumoRepository.save(novoInsumo);
     return new CadastrarInsumoResponse(insumoSalvo.getId(), insumoSalvo.getNome());
