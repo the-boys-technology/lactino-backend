@@ -5,6 +5,7 @@ import br.com.tbt.lactino.controller.request.RegistrarMovimentacaoDTO;
 import br.com.tbt.lactino.controller.response.MovimentacaoEstoqueResponse;
 import br.com.tbt.lactino.controller.response.PaginaDTO;
 import br.com.tbt.lactino.controller.response.RegistrarMovimentacaoResponse;
+import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.model.enums.TipoMovimentacaoEstoque;
 import br.com.tbt.lactino.service.MovimentacaoEstoqueService;
 import jakarta.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -34,13 +36,15 @@ public class MovimentacaoEstoqueController {
           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
           LocalDate dataFinal,
       @RequestParam(required = false, name = "insumo_id") Long insumoId,
-      Pageable pageable) {
+      Pageable pageable,
+      @AuthenticationPrincipal Usuario usuario) {
     MovimentacaoFiltro filtro =
         MovimentacaoFiltro.builder()
             .tipo(tipo)
             .dataInicial(dataInicial)
             .dataFinal(dataFinal)
             .insumoID(insumoId)
+            .usuario(usuario)
             .build();
 
     Page<MovimentacaoEstoqueResponse> resposta =
