@@ -1,5 +1,6 @@
 package br.com.tbt.lactino.model;
 
+import br.com.tbt.lactino.controller.request.ClienteTransacaoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,6 +30,17 @@ public class Cliente {
     @Column(nullable = false)
     private String localizacao;
 
-    //@Column(nullable = false)
-    //private List<Transacao> transacoes;
+    @Column(nullable = false)
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transacao> transacoes;
+
+    public void adicionarTransacao(Transacao transacao) {
+        transacoes.add(transacao);
+        transacao.setCliente(transacao.getCliente());
+    }
+
+    public void removerTransacao(Transacao transacao) {
+        transacoes.remove(transacao);
+        transacao.setCliente(null);
+    }
 }

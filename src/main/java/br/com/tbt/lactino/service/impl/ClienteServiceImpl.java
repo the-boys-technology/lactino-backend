@@ -3,6 +3,7 @@ package br.com.tbt.lactino.service.impl;
 import br.com.tbt.lactino.controller.request.CadastrarClienteDTO;
 import br.com.tbt.lactino.controller.response.ClienteResponse;
 import br.com.tbt.lactino.model.Cliente;
+import br.com.tbt.lactino.model.Transacao;
 import br.com.tbt.lactino.repository.ClienteRepository;
 import br.com.tbt.lactino.service.ClienteService;
 import jakarta.persistence.EntityNotFoundException;
@@ -64,5 +65,15 @@ public class ClienteServiceImpl implements ClienteService {
         Cliente clienteAtualizado = clienteRepository.save(cliente);
 
         return new ClienteResponse(clienteAtualizado);
+    }
+
+    @Override
+    public void criarTransacao(UUID clienteId, Transacao transacao) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        cliente.adicionarTransacao(transacao); // <- adiciona à lista E define o cliente da transação
+
+        clienteRepository.save(cliente); // Persistir as mudanças (inclusive a nova transação)
     }
 }
