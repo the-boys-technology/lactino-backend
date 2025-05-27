@@ -39,15 +39,23 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
+    @Column(nullable = false, unique = true)
+    private String cidade;
+
+    @Column(nullable = false, unique = true)
+    private String estado;
+
     @CreationTimestamp
     @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
-    public Usuario(String nome, String email, String senha, UserRole role) {
+    public Usuario(String nome, String email, String senha, UserRole role, String cidade, String estado) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.role = role;
+        this.cidade = cidade;
+        this.estado = estado;
     }
 
     @Override
