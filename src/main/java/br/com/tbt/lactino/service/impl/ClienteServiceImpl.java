@@ -3,6 +3,7 @@ package br.com.tbt.lactino.service.impl;
 import br.com.tbt.lactino.controller.request.CadastrarClienteDTO;
 import br.com.tbt.lactino.controller.response.ClienteResponse;
 import br.com.tbt.lactino.model.Cliente;
+import br.com.tbt.lactino.model.Transacao;
 import br.com.tbt.lactino.repository.ClienteRepository;
 import br.com.tbt.lactino.service.ClienteService;
 import jakarta.persistence.EntityNotFoundException;
