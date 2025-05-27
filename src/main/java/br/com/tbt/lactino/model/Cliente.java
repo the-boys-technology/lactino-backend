@@ -1,6 +1,5 @@
 package br.com.tbt.lactino.model;
 
-import br.com.tbt.lactino.controller.request.ClienteTransacaoDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
