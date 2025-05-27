@@ -36,7 +36,7 @@ public class Transacao {
     @Enumerated(EnumType.STRING)
     @Column(name = "forma_pagamento", nullable = false)
     private FormaPagamento formaPagamento;
-
+  
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
