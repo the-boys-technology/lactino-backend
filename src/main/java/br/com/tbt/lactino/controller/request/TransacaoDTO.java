@@ -1,7 +1,6 @@
 package br.com.tbt.lactino.controller.request;
 
 
-import br.com.tbt.lactino.model.Cliente;
 import br.com.tbt.lactino.model.enums.FormaPagamento;
 import br.com.tbt.lactino.model.enums.TipoTransacao;
 
