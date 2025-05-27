@@ -14,9 +14,7 @@ public record TransacaoDTO(
         BigDecimal valorTotal,
         FormaPagamento formaPagamento,
         UUID clienteId,
-        Long fornecedorId,
-        Long leiteId,
-        Long laticinioId,
+        UUID fornecedorId,
         String descricao
 ) {
 }

@@ -3,8 +3,10 @@ package br.com.tbt.lactino.service.impl;
 import br.com.tbt.lactino.controller.request.TransacaoDTO;
 import br.com.tbt.lactino.controller.response.TransacaoResponse;
 import br.com.tbt.lactino.model.Cliente;
+import br.com.tbt.lactino.model.Fornecedor;
 import br.com.tbt.lactino.model.Transacao;
 import br.com.tbt.lactino.repository.ClienteRepository;
+import br.com.tbt.lactino.repository.FornecedorRepository;
 import br.com.tbt.lactino.repository.TransacaoRepository;
 import br.com.tbt.lactino.service.TransacaoService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,6 +24,7 @@ public class TransacaoServiceImpl implements TransacaoService {
 
     private final TransacaoRepository transacaoRepository;
     private final ClienteRepository clienteRepository;
+    private final FornecedorRepository fornecedorRepository;
 
     @Override
     public List<TransacaoResponse> listarTransacoes() {
@@ -42,15 +46,15 @@ public class TransacaoServiceImpl implements TransacaoService {
         Cliente cliente = clienteRepository.findById(transacaoDTO.clienteId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não foi encontrado"));
 
+        Optional<Fornecedor> fornecedor = fornecedorRepository.findById(transacaoDTO.fornecedorId());
+
         Transacao transacao = Transacao.builder()
                 .tipo(transacaoDTO.tipo())
                 .data(transacaoDTO.data())
                 .valorTotal(transacaoDTO.valorTotal())
                 .formaPagamento(transacaoDTO.formaPagamento())
                 .cliente(cliente)
-                .fornecedorId(transacaoDTO.fornecedorId())
-                .leiteId(transacaoDTO.leiteId())
-                .laticinioId(transacaoDTO.laticinioId())
+                .fornecedor(fornecedor.orElse(null))
                 .descricao(transacaoDTO.descricao())
                 .build();
 
@@ -67,14 +71,14 @@ public class TransacaoServiceImpl implements TransacaoService {
         Cliente cliente = clienteRepository.findById(transacaoDTO.clienteId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não foi encontrado"));
 
+        Optional<Fornecedor> fornecedor = fornecedorRepository.findById(transacaoDTO.fornecedorId());
+
         transacaoExistente.setTipo(transacaoDTO.tipo());
         transacaoExistente.setData(transacaoDTO.data());
         transacaoExistente.setValorTotal(transacaoDTO.valorTotal());
         transacaoExistente.setFormaPagamento(transacaoDTO.formaPagamento());
         transacaoExistente.setCliente(cliente);
-        transacaoExistente.setFornecedorId(transacaoDTO.fornecedorId());
-        transacaoExistente.setLeiteId(transacaoDTO.leiteId());
-        transacaoExistente.setLaticinioId(transacaoDTO.laticinioId());
+        transacaoExistente.setFornecedor(fornecedor.orElse(null));
         transacaoExistente.setDescricao(transacaoDTO.descricao());
 
         Transacao atualizada = transacaoRepository.save(transacaoExistente);

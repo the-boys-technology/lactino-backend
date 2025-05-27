@@ -16,9 +16,7 @@ public record TransacaoResponse(
         BigDecimal valorTotal,
         FormaPagamento formaPagamento,
         UUID clienteId,
-        Long fornecedorId,
-        Long leiteId,
-        Long laticinioId,
+        UUID fornecedorId,
         String descricao
 ) {
     public TransacaoResponse(Transacao transacao) {
@@ -29,9 +27,7 @@ public record TransacaoResponse(
                 transacao.getValorTotal(),
                 transacao.getFormaPagamento(),
                 transacao.getCliente().getId(),
-                transacao.getFornecedorId(),
-                transacao.getLeiteId(),
-                transacao.getLaticinioId(),
+                transacao.getFornecedor().getId(),
                 transacao.getDescricao()
         );
     }

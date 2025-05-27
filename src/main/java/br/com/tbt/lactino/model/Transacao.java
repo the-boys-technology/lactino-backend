@@ -10,6 +10,7 @@ import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "transacoes")
@@ -38,14 +39,12 @@ public class Transacao {
     private FormaPagamento formaPagamento;
   
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cliente_id", nullable = false)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    private Long fornecedorId;
-
-    private Long leiteId;
-
-    private Long laticinioId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fornecedor_id")
+    private Fornecedor fornecedor;
 
     private String descricao;
 }
