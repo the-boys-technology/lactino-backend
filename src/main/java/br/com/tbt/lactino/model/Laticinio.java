@@ -33,7 +33,7 @@ public class Laticinio {
     @Column(nullable = false)
     private LocalDate dataValidade;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "leite_utilizado_id", nullable = false)
     private Leite leiteUtilizado;
 
@@ -42,6 +42,10 @@ public class Laticinio {
     private StatusLaticinioEnum status;
 
     private String descricao;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     @PrePersist
     public void calcularValidade() {
@@ -55,12 +59,13 @@ public class Laticinio {
         }
     }
 
-    public Laticinio(String tipoProduto, BigDecimal quantidadeProduzida, LocalDate dataProducao, String descricao, StatusLaticinioEnum status, Leite leiteUtilizado) {
+    public Laticinio(String tipoProduto, BigDecimal quantidadeProduzida, LocalDate dataProducao, String descricao, StatusLaticinioEnum status, Leite leiteUtilizado, Usuario usuario) {
         this.tipoProduto = tipoProduto;
         this.quantidadeProduzida = quantidadeProduzida;
         this.dataProducao = dataProducao;
         this.descricao = descricao;
         this.status = status;
         this.leiteUtilizado = leiteUtilizado;
+        this.usuario = usuario;
     }
 }

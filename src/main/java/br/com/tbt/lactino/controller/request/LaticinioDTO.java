@@ -2,6 +2,7 @@ package br.com.tbt.lactino.controller.request;
 
 import br.com.tbt.lactino.model.Laticinio;
 import br.com.tbt.lactino.model.Leite;
+import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.model.enums.StatusLaticinioEnum;
 import jakarta.validation.constraints.*;
 
@@ -30,7 +31,7 @@ public record LaticinioDTO(
         @Size(max = 500, message = "A descrição pode ter no máximo 500 caracteres")
         String descricao
 ) {
-    public Laticinio toEntity(Leite leite) {
-        return new Laticinio(tipoProduto, quantidadeProduzida, dataProducao, descricao, status, leite);
+    public Laticinio toEntity(Leite leite, Usuario usuario) {
+        return new Laticinio(tipoProduto, quantidadeProduzida, dataProducao, descricao, status, leite, usuario);
     }
 }

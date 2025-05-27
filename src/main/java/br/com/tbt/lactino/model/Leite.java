@@ -44,10 +44,14 @@ public class Leite {
 
     private String finalidade;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
     // refatorar para ser a entidade FORNECEDOR
     private String fornecedor;
 
-    public Leite(String nome, String descricao, LocalDate dataObtencao, String origem, TurnoEnum turno, StatusLeiteEnum status, String finalidade, String fornecedor) {
+    public Leite(String nome, String descricao, LocalDate dataObtencao, String origem, TurnoEnum turno, StatusLeiteEnum status, String finalidade, String fornecedor, Usuario usuario) {
         this.nome = nome;
         this.descricao = descricao;
         this.dataObtencao = dataObtencao;
@@ -57,6 +61,7 @@ public class Leite {
         this.status = status;
         this.finalidade = finalidade;
         this.fornecedor = fornecedor;
+        this.usuario = usuario;
     }
 
     public LocalDate calcularDataValidade() {
