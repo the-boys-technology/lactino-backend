@@ -19,9 +19,11 @@ public record ClienteResponse(
                 cliente.getNome(),
                 cliente.getEmail(),
                 cliente.getLocalizacao(),
-                cliente.getTransacoes()
-                        .stream()
+                cliente.getTransacoes().isEmpty()
+                        ? List.of()
+                        : cliente.getTransacoes().stream()
                         .map(ClienteTransacaoResponse::new)
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList())
+        );
     }
 }
