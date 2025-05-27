@@ -66,14 +66,4 @@ public class ClienteServiceImpl implements ClienteService {
 
         return new ClienteResponse(clienteAtualizado);
     }
-
-    @Override
-    public void criarTransacao(UUID clienteId, Transacao transacao) {
-        Cliente cliente = clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-        cliente.adicionarTransacao(transacao); // <- adiciona à lista E define o cliente da transação
-
-        clienteRepository.save(cliente); // Persistir as mudanças (inclusive a nova transação)
-    }
 }

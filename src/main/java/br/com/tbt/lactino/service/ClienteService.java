@@ -16,6 +16,4 @@ public interface ClienteService {
     List<ClienteResponse> buscarClientes();
 
     ClienteResponse atualizarCliente(UUID id, CadastrarClienteDTO dto);
-
-    void criarTransacao(UUID clienteId, Transacao transacao);
 }

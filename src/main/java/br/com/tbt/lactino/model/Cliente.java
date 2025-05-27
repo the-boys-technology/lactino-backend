@@ -33,14 +33,4 @@ public class Cliente {
     @Column(nullable = false)
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transacao> transacoes;
-
-    public void adicionarTransacao(Transacao transacao) {
-        transacoes.add(transacao);
-        transacao.setCliente(transacao.getCliente());
-    }
-
-    public void removerTransacao(Transacao transacao) {
-        transacoes.remove(transacao);
-        transacao.setCliente(null);
-    }
 }
