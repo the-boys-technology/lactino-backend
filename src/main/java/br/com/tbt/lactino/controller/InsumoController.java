@@ -20,7 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/insumos")
+@RequestMapping("/api/insumos")
 @RequiredArgsConstructor
 public class InsumoController {
   private final InsumoService insumoService;
