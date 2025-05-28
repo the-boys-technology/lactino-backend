@@ -3,11 +3,10 @@ package br.com.tbt.lactino.controller.response;
 import br.com.tbt.lactino.model.Transacao;
 import br.com.tbt.lactino.model.enums.FormaPagamento;
 import br.com.tbt.lactino.model.enums.TipoTransacao;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 public record TransacaoResponse(
         Long id,
@@ -16,9 +15,7 @@ public record TransacaoResponse(
         BigDecimal valorTotal,
         FormaPagamento formaPagamento,
         UUID clienteId,
-        Long fornecedorId,
-        Long leiteId,
-        Long laticinioId,
+        UUID fornecedorId,
         String descricao
 ) {
     public TransacaoResponse(Transacao transacao) {
@@ -28,10 +25,8 @@ public record TransacaoResponse(
                 transacao.getData(),
                 transacao.getValorTotal(),
                 transacao.getFormaPagamento(),
-                transacao.getCliente().getId(),
-                transacao.getFornecedorId(),
-                transacao.getLeiteId(),
-                transacao.getLaticinioId(),
+                transacao.getCliente() != null ? transacao.getCliente().getId() : null,
+                transacao.getFornecedor() != null ? transacao.getFornecedor().getId() : null,
                 transacao.getDescricao()
         );
     }

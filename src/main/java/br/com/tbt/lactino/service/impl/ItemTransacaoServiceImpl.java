@@ -22,7 +22,7 @@ public class ItemTransacaoServiceImpl implements ItemTransacaoService {
         List<ItemTransacao> itens = itemRepository.findAll();
 
         return itens.stream()
-                .filter(i -> transacaoId.map(id -> id.equals(i.getTransacaoId())).orElse(true))
+                .filter(i -> transacaoId.map(id -> id.equals(i.getTransacao().getId())).orElse(true))
                 .filter(i -> produtoId.map(id -> id.equals(i.getProdutoId())).orElse(true))
                 .filter(i -> categoria.map(cat -> i.getCategoria().name().equalsIgnoreCase(cat)).orElse(true))
                 .map(ItemTransacaoResponse::new)
