@@ -1,6 +1,7 @@
 package br.com.tbt.lactino.repository;
 
 import br.com.tbt.lactino.model.Leite;
+import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.model.enums.StatusLeiteEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -14,7 +15,7 @@ public interface LeiteRepository extends JpaRepository<Leite, UUID> , JpaSpecifi
 
     Optional<Leite> findById(UUID id);
 
-    List<Leite> findByStatusAndDataValidadeLessThanEqual(StatusLeiteEnum status, LocalDate dataLimite);
+    List<Leite> findByUsuarioAndStatusAndDataValidadeLessThanEqual(Usuario usuario, StatusLeiteEnum status, LocalDate dataLimite);
 
     List<Leite> findByStatus(StatusLeiteEnum status);
 

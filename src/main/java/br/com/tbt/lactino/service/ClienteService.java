@@ -2,6 +2,8 @@ package br.com.tbt.lactino.service;
 
 import br.com.tbt.lactino.controller.request.CadastrarClienteDTO;
 import br.com.tbt.lactino.controller.response.ClienteResponse;
+import br.com.tbt.lactino.model.Cliente;
+import br.com.tbt.lactino.model.Transacao;
 
 import java.util.List;
 import java.util.UUID;

@@ -5,7 +5,6 @@ import br.com.tbt.lactino.controller.response.ClienteResponse;
 import br.com.tbt.lactino.service.ClienteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("cliente")
+@RequestMapping("/api/clientes")
 public class ClienteController {
 
     private final ClienteService clienteService;

@@ -14,6 +14,8 @@ public class LeiteSpecification {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
+            predicates.add(builder.equal(root.get("usuario"), filtro.usuario()));
+
             if (filtro.status() != null) {
                 predicates.add(builder.equal(root.get("status"), filtro.status()));
             }

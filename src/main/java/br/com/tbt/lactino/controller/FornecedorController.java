@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("fornecedor")
+@RequestMapping("/api/fornecedores")
 public class FornecedorController {
 
     private final FornecedorService fornecedorService;

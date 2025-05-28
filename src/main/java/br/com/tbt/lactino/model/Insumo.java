@@ -55,7 +55,12 @@ public class Insumo {
   @Column(nullable = false)
   private Boolean isDeletado;
 
+  @ManyToOne
+  @JoinColumn(name = "usuario_id")
+  private Usuario usuario;
+
   public boolean isEmBaixoEstoque() {
-    return this.quantidadeTotal < this.quantidadeMinima; //todo Validar se há outro cálculo para baixo estoque
+    return this.quantidadeTotal
+        < this.quantidadeMinima; // todo Validar se há outro cálculo para baixo estoque
   }
 }
