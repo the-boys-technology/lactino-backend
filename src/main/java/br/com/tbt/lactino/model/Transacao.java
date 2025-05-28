@@ -4,13 +4,12 @@ import br.com.tbt.lactino.model.enums.FormaPagamento;
 import br.com.tbt.lactino.model.enums.TipoTransacao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "transacoes")
