@@ -4,12 +4,12 @@ public class ErrorResponse {
 
     private int status;
     private String error;
-    private String menssagem;
+    private String mensagem;
 
     public ErrorResponse(int status, String error, String menssagem) {
         this.status = status;
         this.error = error;
-        this.menssagem = menssagem;
+        this.mensagem = menssagem;
     }
 
     public int getStatus() {
@@ -29,10 +29,10 @@ public class ErrorResponse {
     }
 
     public String getMenssagem() {
-        return menssagem;
+        return mensagem;
     }
 
     public void setMenssagem(String menssagem) {
-        this.menssagem = menssagem;
+        this.mensagem = menssagem;
     }
 }
