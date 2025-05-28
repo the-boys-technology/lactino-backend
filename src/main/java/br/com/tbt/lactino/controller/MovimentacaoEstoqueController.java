@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/movimentacoes")
+@RequestMapping("/api/movimentacoes")
 @RequiredArgsConstructor
 public class MovimentacaoEstoqueController {
   private final MovimentacaoEstoqueService movimentacaoEstoqueService;
