@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record ClienteTransacaoResponse(
-        Long id,
+        UUID id,
         TipoTransacao tipo,
         LocalDateTime data,
         BigDecimal valorTotal,

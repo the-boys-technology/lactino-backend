@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.UUID;
 
-public interface ItemTransacaoRepository extends JpaRepository<ItemTransacao, Long> {
+public interface ItemTransacaoRepository extends JpaRepository<ItemTransacao, UUID> {
 
     List<ItemTransacao> findByTransacaoId(Long transacaoId);
 
