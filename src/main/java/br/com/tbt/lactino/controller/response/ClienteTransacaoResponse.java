@@ -24,7 +24,7 @@ public record ClienteTransacaoResponse(
                 transacao.getData(),
                 transacao.getValorTotal(),
                 transacao.getFormaPagamento(),
-                transacao.getFornecedor().getId(),
+                transacao.getFornecedor() != null ? transacao.getFornecedor().getId() : null,
                 transacao.getDescricao()
         );
     }

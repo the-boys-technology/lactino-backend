@@ -42,7 +42,7 @@ public class TransacaoServiceImpl implements TransacaoService {
     }
 
     @Override
-    public TransacaoResponse buscarTransacao(Long transacaoId) {
+    public TransacaoResponse buscarTransacao(UUID transacaoId) {
         Transacao transacao = transacaoRepository.findById(transacaoId)
                 .orElseThrow(() -> new RuntimeException("Transação não encontrada"));
         return new TransacaoResponse(transacao);
@@ -90,7 +90,7 @@ public class TransacaoServiceImpl implements TransacaoService {
     }
 
     @Override
-    public TransacaoResponse atualizarTransacao(Long transacaoId, TransacaoDTO transacaoDTO) {
+    public TransacaoResponse atualizarTransacao(UUID transacaoId, TransacaoDTO transacaoDTO) {
         Transacao transacaoExistente = transacaoRepository.findById(transacaoId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Transação não encontrada"));
 
@@ -134,7 +134,7 @@ public class TransacaoServiceImpl implements TransacaoService {
     }
 
     @Override
-    public void removerTransacao(Long transacaoId) {
+    public void removerTransacao(UUID transacaoId) {
         Transacao transacao = transacaoRepository.findById(transacaoId)
                 .orElseThrow(() -> new RuntimeException("Transação não encontrada"));
         transacaoRepository.delete(transacao);

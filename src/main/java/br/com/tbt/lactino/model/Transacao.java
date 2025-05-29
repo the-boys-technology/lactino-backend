@@ -21,7 +21,7 @@ import java.util.UUID;
 public class Transacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Enumerated(EnumType.STRING)
@@ -45,6 +45,10 @@ public class Transacao {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fornecedor_id")
     private Fornecedor fornecedor;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     private String descricao;
 }

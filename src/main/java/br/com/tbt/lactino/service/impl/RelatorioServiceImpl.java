@@ -41,7 +41,7 @@ public class RelatorioServiceImpl implements RelatorioService {
     }
 
     @Override
-    public RelatorioPedidoResponse gerarRelatorioPedido(Long transacaoId) {
+    public RelatorioPedidoResponse gerarRelatorioPedido(UUID transacaoId) {
         Transacao transacao = transacaoRepository.findById(transacaoId)
                 .orElseThrow(() -> new EntityNotFoundException("Transação não encontrada"));
 
