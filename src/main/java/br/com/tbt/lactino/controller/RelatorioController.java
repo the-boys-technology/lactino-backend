@@ -28,12 +28,12 @@ public class RelatorioController {
     }
 
   @GetMapping(value = "/pedidos/imprimir/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
-  public ResponseEntity<byte[]> baixarRelatorioPdf(@PathVariable Long transacaoId) {
-        byte[] relatorio = this.relatorioService.gerarRelatorioPedidoPdf(transacaoId);
+  public ResponseEntity<byte[]> baixarRelatorioPdf(@PathVariable Long id) {
+        byte[] relatorio = this.relatorioService.gerarRelatorioPedidoPdf(id);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_PDF);
-        headers.setContentDispositionFormData("attachment", "relatorio-pedido-" + transacaoId + ".pdf");
+        headers.setContentDispositionFormData("attachment", "relatorio-pedido-" + id + ".pdf");
         headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 
         return ResponseEntity
