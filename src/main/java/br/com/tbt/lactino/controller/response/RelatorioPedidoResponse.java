@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public record RelatorioPedidoResponse(
-        Long transacaoId,
+        java.util.UUID transacaoId,
         LocalDateTime data,
         String clienteNome,
         String clienteEmail,

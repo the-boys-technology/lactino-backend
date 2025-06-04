@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/relatorios")
 public class RelatorioController {
@@ -22,13 +24,13 @@ public class RelatorioController {
     }
 
     @GetMapping("/pedidos/{id}")
-    public ResponseEntity<RelatorioPedidoResponse> verificaRelatorioPedido(@PathVariable Long id) {
+    public ResponseEntity<RelatorioPedidoResponse> verificaRelatorioPedido(@PathVariable UUID id) {
         RelatorioPedidoResponse response = relatorioService.gerarRelatorioPedido(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
   @GetMapping(value = "/pedidos/imprimir/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
-  public ResponseEntity<byte[]> baixarRelatorioPdf(@PathVariable Long id) {
+  public ResponseEntity<byte[]> baixarRelatorioPdf(@PathVariable UUID id) {
         byte[] relatorio = this.relatorioService.gerarRelatorioPedidoPdf(id);
 
         HttpHeaders headers = new HttpHeaders();

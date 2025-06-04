@@ -3,5 +3,7 @@ package br.com.tbt.lactino.repository;
 import br.com.tbt.lactino.model.Transacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
+import java.util.UUID;
+
+public interface TransacaoRepository extends JpaRepository<Transacao, UUID> {
 }

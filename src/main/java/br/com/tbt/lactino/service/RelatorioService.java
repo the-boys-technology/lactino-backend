@@ -2,8 +2,11 @@ package br.com.tbt.lactino.service;
 
 import br.com.tbt.lactino.controller.response.RelatorioPedidoResponse;
 
-public interface RelatorioService {
-  RelatorioPedidoResponse gerarRelatorioPedido(Long transacaoId);
+import java.util.UUID;
 
-  byte[] gerarRelatorioPedidoPdf(Long transacaoId);
+public interface RelatorioService {
+
+    RelatorioPedidoResponse gerarRelatorioPedido(UUID transacaoId);
+
+    byte[] gerarRelatorioPedidoPdf(UUID transacaoId);
 }

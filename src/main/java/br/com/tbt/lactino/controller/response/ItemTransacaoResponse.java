@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public record ItemTransacaoResponse(
-        Long id,
-        Long transacaoId,
+        UUID id,
+        UUID transacaoId,
         UUID produtoId,
         Integer quantidade,
         BigDecimal precoUnitario,

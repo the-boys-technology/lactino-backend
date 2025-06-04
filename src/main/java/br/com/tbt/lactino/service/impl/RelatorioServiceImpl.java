@@ -51,7 +51,7 @@ public class RelatorioServiceImpl implements RelatorioService {
     }
 
     @Override
-    public RelatorioPedidoResponse gerarRelatorioPedido(Long transacaoId) {
+    public RelatorioPedidoResponse gerarRelatorioPedido(UUID transacaoId) {
         Transacao transacao = transacaoRepository.findById(transacaoId)
                 .orElseThrow(() -> new EntityNotFoundException("Transação não encontrada"));
 
@@ -94,7 +94,7 @@ public class RelatorioServiceImpl implements RelatorioService {
     }
 
     @Override
-    public byte[] gerarRelatorioPedidoPdf(Long transacaoId) {
+    public byte[] gerarRelatorioPedidoPdf(UUID transacaoId) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             Document document = new Document(PageSize.A4, 36, 36, 36, 36);
             PdfWriter.getInstance(document, baos);

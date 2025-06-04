@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record ClienteTransacaoResponse(
-        Long id,
+        UUID id,
         TipoTransacao tipo,
         LocalDateTime data,
         BigDecimal valorTotal,
@@ -24,7 +24,7 @@ public record ClienteTransacaoResponse(
                 transacao.getData(),
                 transacao.getValorTotal(),
                 transacao.getFormaPagamento(),
-                transacao.getFornecedor().getId(),
+                transacao.getFornecedor() != null ? transacao.getFornecedor().getId() : null,
                 transacao.getDescricao()
         );
     }
