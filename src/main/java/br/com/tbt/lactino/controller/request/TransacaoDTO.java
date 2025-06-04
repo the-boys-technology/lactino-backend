@@ -14,7 +14,6 @@ public record TransacaoDTO(
         UUID clienteId, //Pode ser nulo em compras (quando não há cliente)
         UUID fornecedorId, // Pode ser nulo em vendas (quando não há fornecedor)
         UUID usuarioId,
-
         String descricao,
         @NotNull List<ItemTransacaoDTO> itens
 ) {
