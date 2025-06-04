@@ -30,7 +30,7 @@ public class RelatorioController {
     }
 
   @GetMapping(value = "/pedidos/imprimir/{id}", produces = MediaType.APPLICATION_PDF_VALUE)
-  public ResponseEntity<byte[]> baixarRelatorioPdf(@PathVariable Long id) {
+  public ResponseEntity<byte[]> baixarRelatorioPdf(@PathVariable UUID id) {
         byte[] relatorio = this.relatorioService.gerarRelatorioPedidoPdf(id);
 
         HttpHeaders headers = new HttpHeaders();

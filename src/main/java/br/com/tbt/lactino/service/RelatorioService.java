@@ -8,5 +8,5 @@ public interface RelatorioService {
 
     RelatorioPedidoResponse gerarRelatorioPedido(UUID transacaoId);
 
-    byte[] gerarRelatorioPedidoPdf(Long transacaoId);
+    byte[] gerarRelatorioPedidoPdf(UUID transacaoId);
 }
