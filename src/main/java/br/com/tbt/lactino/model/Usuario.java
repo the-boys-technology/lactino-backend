@@ -39,19 +39,19 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
-    @Column(nullable = false)
+    @Column
     private String cep;
 
-    @Column(nullable = false)
+    @Column
     private String cidade;
 
-    @Column(nullable = false)
+    @Column
     private String estado;
 
-    @Column(nullable = false)
+    @Column
     private String rua;
 
-    @Column(nullable = false)
+    @Column
     private String bairro;
 
     @CreationTimestamp
