@@ -30,4 +30,8 @@ public class Fornecedor {
 
         //@Column(nullable = false)
         //private List<Transacao> transacoes;
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "usuario_id")
+        private Usuario usuario;
 }
