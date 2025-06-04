@@ -58,6 +58,9 @@ public class Usuario implements UserDetails {
     @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Transacao> transacoes;
+
     public Usuario(String nome, String email, String senha, UserRole role, String cep, String cidade, String estado, String rua, String bairro) {
         this.nome = nome;
         this.email = email;
