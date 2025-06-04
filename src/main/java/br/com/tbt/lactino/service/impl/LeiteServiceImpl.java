@@ -12,14 +12,15 @@ import br.com.tbt.lactino.repository.UsuarioRepository;
 import br.com.tbt.lactino.repository.specifications.LeiteSpecification;
 import br.com.tbt.lactino.service.LeiteService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class LeiteServiceImpl implements LeiteService {
@@ -78,18 +79,10 @@ public class LeiteServiceImpl implements LeiteService {
     }
 
     @Override
-    public List<LeiteDetalhadoResponse> listarLeitesComFiltro(String email, LeiteFiltro filtro) {
-        Usuario usuario = usuarioRepository.findByEmail(email);
-        LeiteFiltro filtroComUsuario = new LeiteFiltro(
-                filtro.status(),
-                filtro.origem(),
-                filtro.turno(),
-                usuario
-        );
-        return leiteRepository.findAll(LeiteSpecification.filtrar(filtroComUsuario))
-                .stream()
-                .map(LeiteDetalhadoResponse::new)
-                .collect(Collectors.toList());
+    public Page<LeiteDetalhadoResponse> listarLeitesComFiltro(LeiteFiltro filtro, Pageable pageable) {
+        Specification<Leite> spec = LeiteSpecification.filtrar(filtro);
+        Page<Leite> leites = leiteRepository.findAll(spec, pageable);
+        return leites.map(LeiteDetalhadoResponse::new);
     }
 
     @Override

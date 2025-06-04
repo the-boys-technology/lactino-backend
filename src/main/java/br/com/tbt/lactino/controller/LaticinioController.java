@@ -4,11 +4,17 @@ import br.com.tbt.lactino.controller.request.AtualizarLaticinioDTO;
 import br.com.tbt.lactino.controller.request.LaticinioDTO;
 import br.com.tbt.lactino.controller.request.LaticinioFiltro;
 import br.com.tbt.lactino.controller.response.LaticinioDetalhadoResponse;
+import br.com.tbt.lactino.controller.response.PaginaDTO;
+import br.com.tbt.lactino.model.Usuario;
+import br.com.tbt.lactino.model.enums.StatusLaticinioEnum;
 import br.com.tbt.lactino.security.TokenService;
 import br.com.tbt.lactino.service.LaticinioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,9 +47,15 @@ public class LaticinioController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<LaticinioDetalhadoResponse> listarLaticinios(HttpServletRequest request, @ModelAttribute LaticinioFiltro filtro) {
-        String email = tokenService.validarToken(request.getHeader("Authorization").substring(7));
-        return laticinioService.listarLaticinios(email, filtro);
+    public PaginaDTO<LaticinioDetalhadoResponse> listarLaticinios(
+            @RequestParam(required = false) String tipo,
+            @RequestParam(required = false) StatusLaticinioEnum status,
+            @RequestParam(required = false) UUID leiteUtilizadoId,
+            Pageable pageable,
+            @AuthenticationPrincipal Usuario usuario) {
+        LaticinioFiltro filtro = new LaticinioFiltro(tipo, status, leiteUtilizadoId, usuario);
+        Page<LaticinioDetalhadoResponse> response = laticinioService.listarLaticinios(filtro, pageable);
+        return new PaginaDTO<>(response);
     }
 
     @PutMapping("/{id}")
