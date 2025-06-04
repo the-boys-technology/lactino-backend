@@ -1,6 +1,6 @@
 package br.com.tbt.lactino.controller;
 
-import br.com.tbt.lactino.controller.response.ItemTransacaoResponse;
+import br.com.tbt.lactino.controller.response.ItemTransacaoDetalhadoResponse;
 import br.com.tbt.lactino.service.ItemTransacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +22,7 @@ public class ItemTransacaoController {
      * Retorna todos os itens vinculados às transações, com filtros opcionais.
      */
     @GetMapping
-    public List<ItemTransacaoResponse> listarItens(
+    public List<ItemTransacaoDetalhadoResponse> listarItens(
             @RequestParam(required = false) Long transacaoId,
             @RequestParam(required = false) Long produtoId,
             @RequestParam(required = false) String categoria
