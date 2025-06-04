@@ -38,4 +38,7 @@ public class ItemTransacao {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CategoriaProduto categoria;
+
+    @Column(name = "unidade_de_medida", nullable = false)
+    private String unidadeDeMedida;
 }

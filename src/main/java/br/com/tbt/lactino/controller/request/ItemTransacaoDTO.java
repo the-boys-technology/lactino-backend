@@ -10,6 +10,7 @@ public record ItemTransacaoDTO(
         @NotNull UUID produtoId,
         @NotNull CategoriaProduto categoria,
         @NotNull Integer quantidade,
-        @NotNull BigDecimal precoUnitario
+        @NotNull BigDecimal precoUnitario,
+        @NotNull String unidadeDeMedida
 ) {
 }
