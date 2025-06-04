@@ -3,6 +3,7 @@ package br.com.tbt.lactino.service;
 import br.com.tbt.lactino.controller.request.TransacaoDTO;
 import br.com.tbt.lactino.controller.response.TransacaoResponse;
 import java.util.List;
+import java.util.UUID;
 
 public interface TransacaoService {
 
@@ -14,7 +15,7 @@ public interface TransacaoService {
     /**
      * Retorna os detalhes de uma transação específica.
      */
-    TransacaoResponse buscarTransacao(Long transacaoId);
+    TransacaoResponse buscarTransacao(UUID transacaoId);
 
     /**
      * Registra uma nova transação de compra ou venda.
@@ -24,10 +25,10 @@ public interface TransacaoService {
     /**
      * Atualiza uma transação existente.
      */
-    TransacaoResponse atualizarTransacao(Long transacaoId, TransacaoDTO transacaoDTO);
+    TransacaoResponse atualizarTransacao(UUID transacaoId, TransacaoDTO transacaoDTO);
 
     /**
      * Remove uma transação do sistema.
      */
-    void removerTransacao(Long transacaoId);
+    void removerTransacao(UUID transacaoId);
 }

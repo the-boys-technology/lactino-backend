@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/transacoes")
@@ -38,7 +39,7 @@ public class TransacaoController {
      */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TransacaoResponse buscarTransacao(@PathVariable Long id) {
+    public TransacaoResponse buscarTransacao(@PathVariable UUID id) {
         return transacaoService.buscarTransacao(id);
     }
 
@@ -63,7 +64,7 @@ public class TransacaoController {
      */
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public TransacaoResponse atualizarTransacao(@PathVariable Long id, @RequestBody @Valid TransacaoDTO transacaoDTO) {
+    public TransacaoResponse atualizarTransacao(@PathVariable UUID id, @RequestBody @Valid TransacaoDTO transacaoDTO) {
         return transacaoService.atualizarTransacao(id, transacaoDTO);
     }
 
@@ -74,7 +75,7 @@ public class TransacaoController {
      */
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removerTransacao(@PathVariable Long id) {
+    public void removerTransacao(@PathVariable UUID id) {
         transacaoService.removerTransacao(id);
     }
 }

@@ -6,16 +6,15 @@ import br.com.tbt.lactino.model.enums.TipoTransacao;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record ClienteTransacaoResponse(
-        Long id,
+        UUID id,
         TipoTransacao tipo,
         LocalDateTime data,
         BigDecimal valorTotal,
         FormaPagamento formaPagamento,
-        Long fornecedorId,
-        Long leiteId,
-        Long laticinioId,
+        UUID fornecedorId,
         String descricao
 ) {
     public ClienteTransacaoResponse(Transacao transacao) {
@@ -25,9 +24,7 @@ public record ClienteTransacaoResponse(
                 transacao.getData(),
                 transacao.getValorTotal(),
                 transacao.getFormaPagamento(),
-                transacao.getFornecedorId(),
-                transacao.getLeiteId(),
-                transacao.getLaticinioId(),
+                transacao.getFornecedor() != null ? transacao.getFornecedor().getId() : null,
                 transacao.getDescricao()
         );
     }

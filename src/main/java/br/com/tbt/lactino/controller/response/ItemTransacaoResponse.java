@@ -5,11 +5,12 @@ import br.com.tbt.lactino.model.ItemTransacao;
 import br.com.tbt.lactino.model.enums.CategoriaProduto;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record ItemTransacaoResponse(
-        Long id,
-        Long transacaoId,
-        Long produtoId,
+        UUID id,
+        UUID transacaoId,
+        UUID produtoId,
         Integer quantidade,
         BigDecimal precoUnitario,
         CategoriaProduto categoria
@@ -17,7 +18,7 @@ public record ItemTransacaoResponse(
     public ItemTransacaoResponse(ItemTransacao item) {
         this(
                 item.getId(),
-                item.getTransacaoId(),
+                item.getTransacao().getId(),
                 item.getProdutoId(),
                 item.getQuantidade(),
                 item.getPrecoUnitario(),

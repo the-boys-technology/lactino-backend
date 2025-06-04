@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table(name = "itens_transacao")
@@ -19,12 +20,14 @@ import java.math.BigDecimal;
 public class ItemTransacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    private Long transacaoId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "transacao_id")
+    private Transacao transacao;
 
-    private Long produtoId;
+    private UUID produtoId;
 
     @Column(nullable = false)
     private Integer quantidade;
