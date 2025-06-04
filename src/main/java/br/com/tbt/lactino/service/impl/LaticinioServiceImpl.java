@@ -14,6 +14,9 @@ import br.com.tbt.lactino.repository.UsuarioRepository;
 import br.com.tbt.lactino.repository.specifications.LaticinioSpecification;
 import br.com.tbt.lactino.service.LaticinioService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -53,18 +56,10 @@ public class LaticinioServiceImpl implements LaticinioService {
     }
 
     @Override
-    public List<LaticinioDetalhadoResponse> listarLaticinios(String email, LaticinioFiltro filtro) {
-        Usuario usuario = usuarioRepository.findByEmail(email);
-        LaticinioFiltro filtroComUsuario = new LaticinioFiltro(
-                filtro.tipo(),
-                filtro.status(),
-                filtro.leiteUtilizadoId(),
-                usuario
-        );
-        return laticinioRepository.findAll(LaticinioSpecification.filtrar(filtroComUsuario))
-                .stream()
-                .map(LaticinioDetalhadoResponse::new)
-                .toList();
+    public Page<LaticinioDetalhadoResponse> listarLaticinios(LaticinioFiltro filtro, Pageable pageable) {
+        Specification<Laticinio> spec = LaticinioSpecification.filtrar(filtro);
+        Page<Laticinio> laticinios = laticinioRepository.findAll(spec, pageable);
+        return laticinios.map(LaticinioDetalhadoResponse::new);
     }
 
     @Override
