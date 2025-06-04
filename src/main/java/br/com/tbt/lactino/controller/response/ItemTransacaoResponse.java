@@ -12,15 +12,17 @@ public record ItemTransacaoResponse(
         UUID produtoId,
         Integer quantidade,
         BigDecimal precoUnitario,
-        CategoriaProduto categoria
+        CategoriaProduto categoria,
+        String unidadeDeMedida
 ) {
     public ItemTransacaoResponse(ItemTransacao item) {
         this(
                 item.getId(),
-                 item.getProdutoId(),
+                item.getProdutoId(),
                 item.getQuantidade(),
                 item.getPrecoUnitario(),
-                item.getCategoria()
+                item.getCategoria(),
+                item.getUnidadeDeMedida()
         );
     }
 }

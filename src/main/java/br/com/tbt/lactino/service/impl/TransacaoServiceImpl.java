@@ -146,6 +146,7 @@ public class TransacaoServiceImpl implements TransacaoService {
                 .categoria(dto.categoria())
                 .quantidade(dto.quantidade())
                 .precoUnitario(dto.precoUnitario())
+                .unidadeDeMedida(dto.unidadeDeMedida())
                 .build();
     }
 
