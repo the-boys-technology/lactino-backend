@@ -1,5 +1,6 @@
 package br.com.tbt.lactino.service.impl;
 
+import br.com.tbt.lactino.controller.request.MudarSenhaDTO;
 import br.com.tbt.lactino.controller.request.ResetarSenhaDTO;
 import br.com.tbt.lactino.controller.request.SolicitarResetSenhaDTO;
 import br.com.tbt.lactino.model.ResetarSenha;
@@ -10,6 +11,7 @@ import br.com.tbt.lactino.service.EnviarEmailService;
 import br.com.tbt.lactino.service.SenhaService;
 import br.com.tbt.lactino.service.dto.EnviarEmailDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +26,7 @@ public class SenhaServiceImpl implements SenhaService {
   private final ResetarSenhaRepository resetarSenhaRepository;
   private final EnviarEmailService enviarEmailService;
   private final UsuarioRepository usuarioRepository;
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public void solicitarResetSenha(SolicitarResetSenhaDTO dto) {
@@ -72,6 +75,16 @@ public class SenhaServiceImpl implements SenhaService {
 
     if (usuario == null) {
       throw new RuntimeException("Nenhum usuário foi encontrado com o email " + dto.email());
+    }
+
+    usuario.setSenha(dto.novaSenha());
+    this.usuarioRepository.save(usuario);
+  }
+
+  @Override
+  public void mudarSenha(Usuario usuario, MudarSenhaDTO dto) {
+    if (passwordEncoder.matches(dto.senhaAtual(), usuario.getSenha())) {
+      throw new RuntimeException("A senha atual está incorreta");
     }
 
     usuario.setSenha(dto.novaSenha());
