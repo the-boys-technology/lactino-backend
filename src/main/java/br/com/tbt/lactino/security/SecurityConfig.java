@@ -36,6 +36,8 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/solicitar-redefinicao-senha").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/redefinir-senha").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
