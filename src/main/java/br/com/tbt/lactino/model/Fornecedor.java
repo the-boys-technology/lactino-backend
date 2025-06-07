@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,6 +30,11 @@ public class Fornecedor {
         @Column(nullable = false)
         private String localizacao;
 
-        //@Column(nullable = false)
-        //private List<Transacao> transacoes;
+        @Column(nullable = false)
+        @OneToMany(mappedBy = "fornecedor", cascade = CascadeType.ALL, orphanRemoval = true)
+        private List<Transacao> transacoes = new ArrayList<>();
+
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "usuario_id")
+        private Usuario usuario;
 }

@@ -7,17 +7,19 @@ import br.com.tbt.lactino.model.enums.CategoriaProduto;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public record ItemTransacaoResponse(
+public record ItemTransacaoDetalhadoResponse(
         UUID id,
+        UUID transacaoId,
         UUID produtoId,
         Integer quantidade,
         BigDecimal precoUnitario,
         CategoriaProduto categoria,
         String unidadeDeMedida
 ) {
-    public ItemTransacaoResponse(ItemTransacao item) {
+    public ItemTransacaoDetalhadoResponse(ItemTransacao item) {
         this(
                 item.getId(),
+                item.getTransacao().getId(),
                 item.getProdutoId(),
                 item.getQuantidade(),
                 item.getPrecoUnitario(),

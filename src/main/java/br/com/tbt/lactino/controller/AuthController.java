@@ -1,11 +1,11 @@
 package br.com.tbt.lactino.controller;
 
-import br.com.tbt.lactino.controller.request.LoginDTO;
-import br.com.tbt.lactino.controller.request.RegistroDTO;
+import br.com.tbt.lactino.controller.request.*;
 import br.com.tbt.lactino.controller.response.LoginResponseDTO;
 import br.com.tbt.lactino.controller.response.UsuarioResponse;
 import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.security.TokenService;
+import br.com.tbt.lactino.service.SenhaService;
 import br.com.tbt.lactino.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,14 +22,17 @@ public class AuthController {
   private final AuthenticationManager authenticationManager;
   private final UsuarioService usuarioService;
   private final TokenService tokenService;
+  private final SenhaService senhaService;
 
   public AuthController(
       AuthenticationManager authenticationManager,
       UsuarioService usuarioService,
-      TokenService tokenService) {
+      TokenService tokenService,
+      SenhaService senhaService) {
     this.authenticationManager = authenticationManager;
     this.usuarioService = usuarioService;
     this.tokenService = tokenService;
+    this.senhaService = senhaService;
   }
 
   @PostMapping("/login")
@@ -53,5 +56,24 @@ public class AuthController {
       @AuthenticationPrincipal Usuario usuarioAutenticado) {
     UsuarioResponse response = this.usuarioService.verDados(usuarioAutenticado);
     return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
+  @PostMapping("/solicitar-redefinicao-senha")
+  public ResponseEntity<Void> solicitarRedefinicaoSenha(SolicitarResetSenhaDTO dto) {
+    this.senhaService.solicitarResetSenha(dto);
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+  @PostMapping("/redefinir-senha")
+  public ResponseEntity<Void> redefinirSenha(ResetarSenhaDTO dto) {
+    this.senhaService.resetarSenha(dto);
+    return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+  @PostMapping("/mudar-senha")
+  public ResponseEntity<Void> redefinirSenha(
+      @AuthenticationPrincipal Usuario usuario, MudarSenhaDTO dto) {
+    this.senhaService.mudarSenha(usuario, dto);
+    return ResponseEntity.status(HttpStatus.OK).build();
   }
 }

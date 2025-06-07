@@ -61,6 +61,12 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Transacao> transacoes;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Cliente> clientes;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Fornecedor> fornecedores;
+
     public Usuario(String nome, String email, String senha, UserRole role, String cep, String cidade, String estado, String rua, String bairro) {
         this.nome = nome;
         this.email = email;

@@ -66,7 +66,10 @@ public class TransacaoServiceImpl implements TransacaoService {
                 .map(item -> item.precoUnitario().multiply(BigDecimal.valueOf(item.quantidade())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // Cria a transação
+        List<ItemTransacao> itens = transacaoDTO.itens().stream()
+                .map(itemDTO -> criarItemTransacao(itemDTO, null))
+                .collect(Collectors.toList());
+
         Transacao transacao = Transacao.builder()
                 .tipo(transacaoDTO.tipo())
                 .data(LocalDateTime.now())
@@ -77,13 +80,9 @@ public class TransacaoServiceImpl implements TransacaoService {
                 .descricao(transacaoDTO.descricao())
                 .build();
 
-        // Salva a transação primeiro para gerar o ID
         Transacao transacaoSalva = transacaoRepository.save(transacao);
 
-        // Cria e salva os itens
-        List<ItemTransacao> itens = transacaoDTO.itens().stream()
-                .map(itemDTO -> criarItemTransacao(itemDTO, transacaoSalva))
-                .collect(Collectors.toList());
+        itens.forEach(item -> item.setTransacao(transacaoSalva));
 
         itemTransacaoRepository.saveAll(itens);
         return new TransacaoResponse(transacaoSalva);
@@ -110,6 +109,10 @@ public class TransacaoServiceImpl implements TransacaoService {
                 .map(item -> item.precoUnitario().multiply(BigDecimal.valueOf(item.quantidade())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        List<ItemTransacao> itensNovos = transacaoDTO.itens().stream()
+                .map(itemDTO -> criarItemTransacao(itemDTO, transacaoExistente))
+                .collect(Collectors.toList());
+
         transacaoExistente.setTipo(transacaoDTO.tipo());
         transacaoExistente.setData(LocalDateTime.now());
         transacaoExistente.setValorTotal(valorTotal);
@@ -120,14 +123,8 @@ public class TransacaoServiceImpl implements TransacaoService {
 
         Transacao transacaoAtualizada = transacaoRepository.save(transacaoExistente);
 
-        // Remove itens antigos
         List<ItemTransacao> itensAntigos = itemTransacaoRepository.findByTransacaoId(transacaoId);
         itemTransacaoRepository.deleteAll(itensAntigos);
-
-        // Adiciona itens novos
-        List<ItemTransacao> itensNovos = transacaoDTO.itens().stream()
-                .map(itemDTO -> criarItemTransacao(itemDTO, transacaoAtualizada))
-                .collect(Collectors.toList());
 
         itemTransacaoRepository.saveAll(itensNovos);
         return new TransacaoResponse(transacaoAtualizada);
@@ -149,10 +146,10 @@ public class TransacaoServiceImpl implements TransacaoService {
                 .categoria(dto.categoria())
                 .quantidade(dto.quantidade())
                 .precoUnitario(dto.precoUnitario())
+                .unidadeDeMedida(dto.unidadeDeMedida())
                 .build();
     }
 
-    // 🔥 Validação se o produto existe
     private void validarProduto(br.com.tbt.lactino.model.enums.CategoriaProduto categoria, UUID produtoId) {
         switch (categoria) {
             case LEITE -> leiteRepository.findById(produtoId)
@@ -163,5 +160,4 @@ public class TransacaoServiceImpl implements TransacaoService {
                     .orElseThrow(() -> new EntityNotFoundException("Insumo não encontrado com ID: " + produtoId));
         }
     }
-
 }
