@@ -6,10 +6,13 @@ import br.com.tbt.lactino.controller.request.LaticinioFiltro;
 import br.com.tbt.lactino.controller.response.LaticinioDetalhadoResponse;
 import br.com.tbt.lactino.model.Laticinio;
 import br.com.tbt.lactino.model.Leite;
+import br.com.tbt.lactino.model.Notificacao;
 import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.model.enums.StatusLaticinioEnum;
+import br.com.tbt.lactino.model.enums.TipoNotificacao;
 import br.com.tbt.lactino.repository.LaticinioRepository;
 import br.com.tbt.lactino.repository.LeiteRepository;
+import br.com.tbt.lactino.repository.NotificacaoRepository;
 import br.com.tbt.lactino.repository.UsuarioRepository;
 import br.com.tbt.lactino.repository.specifications.LaticinioSpecification;
 import br.com.tbt.lactino.service.LaticinioService;
@@ -21,6 +24,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,11 +34,13 @@ public class LaticinioServiceImpl implements LaticinioService {
     private final LaticinioRepository laticinioRepository;
     private final LeiteRepository leiteRepository;
     private final UsuarioRepository usuarioRepository;
+    private final NotificacaoRepository notificacaoRepository;
 
-    public LaticinioServiceImpl(LaticinioRepository laticinioRepository, LeiteRepository leiteRepository, UsuarioRepository usuarioRepository) {
+    public LaticinioServiceImpl(LaticinioRepository laticinioRepository, LeiteRepository leiteRepository, UsuarioRepository usuarioRepository, NotificacaoRepository notificacaoRepository) {
         this.laticinioRepository = laticinioRepository;
         this.leiteRepository = leiteRepository;
         this.usuarioRepository = usuarioRepository;
+        this.notificacaoRepository = notificacaoRepository;
     }
 
     @Override
@@ -104,19 +110,33 @@ public class LaticinioServiceImpl implements LaticinioService {
 
     @Scheduled(fixedDelay = 300000) // 5 minutos
     public void atualizarStatusLaticinios() {
-        System.out.printf("EXECUTANDO: atualizarStatusLaticinios");
+        System.out.print("EXECUTANDO: atualizarStatusLaticinios");
         LocalDate hoje = LocalDate.now();
 
         List<Laticinio> laticiniosEmEstoque = laticinioRepository.findByStatus(StatusLaticinioEnum.EM_ESTOQUE);
 
-        List<Laticinio> vencidos = laticiniosEmEstoque.stream()
+        List<Laticinio> laticiniosVencidos = laticiniosEmEstoque.stream()
                 .filter(l -> l.getDataValidade().isBefore(hoje))
                 .peek(l -> l.setStatus(StatusLaticinioEnum.VENCIDO))
                 .toList();
 
-        if (!vencidos.isEmpty()) {
-            laticinioRepository.saveAll(vencidos);
-            System.out.println("Laticínios atualizados como VENCIDO: " + vencidos.size());
+        if (!laticiniosVencidos.isEmpty()) {
+            laticinioRepository.saveAll(laticiniosVencidos);
+            System.out.println("Laticínios atualizados como VENCIDO: " + laticiniosVencidos.size());
         }
+
+        List<Notificacao> notificacoes = laticiniosVencidos.stream()
+                .map(laticinio -> Notificacao.builder()
+                        .usuario(laticinio.getUsuario())
+                        .titulo("Leite vencido")
+                        .mensagem("O laticínio '" + laticinio.getTipoProduto() + "' venceu em " + laticinio.getDataValidade())
+                        .tipoNotificacao(TipoNotificacao.VENCIMENTO_LATICINIO)
+                        .lida(false)
+                        .criadaEm(LocalDateTime.now())
+                        .build())
+                .toList();
+
+        notificacaoRepository.saveAll(notificacoes);
+        System.out.println("Notificações de laticínios vencido enviadas: " + notificacoes.size());
     }
 }
