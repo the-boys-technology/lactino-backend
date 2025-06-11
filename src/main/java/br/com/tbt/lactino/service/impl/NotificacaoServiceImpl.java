@@ -16,7 +16,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 
     private final NotificacaoRepository notificacaoRepository;
 
-    public NotificacoaServiceImpl(NotificacaoRepository notificacaoRepository) {
+    public NotificacaoServiceImpl(NotificacaoRepository notificacaoRepository) {
         this.notificacaoRepository = notificacaoRepository;
     }
 
