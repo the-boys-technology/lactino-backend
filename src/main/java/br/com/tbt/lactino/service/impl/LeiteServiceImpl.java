@@ -5,9 +5,12 @@ import br.com.tbt.lactino.controller.request.LeiteDTO;
 import br.com.tbt.lactino.controller.request.LeiteFiltro;
 import br.com.tbt.lactino.controller.response.LeiteDetalhadoResponse;
 import br.com.tbt.lactino.model.Leite;
+import br.com.tbt.lactino.model.Notificacao;
 import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.model.enums.StatusLeiteEnum;
+import br.com.tbt.lactino.model.enums.TipoNotificacao;
 import br.com.tbt.lactino.repository.LeiteRepository;
+import br.com.tbt.lactino.repository.NotificacaoRepository;
 import br.com.tbt.lactino.repository.UsuarioRepository;
 import br.com.tbt.lactino.repository.specifications.LeiteSpecification;
 import br.com.tbt.lactino.service.LeiteService;
@@ -19,6 +22,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,10 +31,12 @@ public class LeiteServiceImpl implements LeiteService {
 
     private final LeiteRepository leiteRepository;
     private final UsuarioRepository usuarioRepository;
+    private final NotificacaoRepository notificacaoRepository;
 
-    public LeiteServiceImpl(LeiteRepository leiteRepository, UsuarioRepository usuarioRepository) {
+    public LeiteServiceImpl(LeiteRepository leiteRepository, UsuarioRepository usuarioRepository, NotificacaoRepository notificacaoRepository) {
         this.leiteRepository = leiteRepository;
         this.usuarioRepository = usuarioRepository;
+        this.notificacaoRepository = notificacaoRepository;
     }
 
     @Override
@@ -100,9 +106,9 @@ public class LeiteServiceImpl implements LeiteService {
                 .toList();
     }
 
-    @Scheduled(fixedDelay = 300000) // 5 minutos
+    @Scheduled(fixedDelay = 30000) // 5 minutos
     public void atualizarStatusLeite() {
-        System.out.printf("EXECUTANDO: atualizarStatusLeite");
+        System.out.print("EXECUTANDO: atualizarStatusLeite");
         LocalDate hoje = LocalDate.now();
 
         List<Leite> leitesDisponiveis = leiteRepository.findByStatus(StatusLeiteEnum.DISPONIVEL);
@@ -116,5 +122,19 @@ public class LeiteServiceImpl implements LeiteService {
             leiteRepository.saveAll(leitesVencidos);
             System.out.println("Leites atualizados como VENCIDO: " + leitesVencidos.size());
         }
+
+        List<Notificacao> notificacoes = leitesVencidos.stream()
+                .map(leite -> Notificacao.builder()
+                        .usuario(leite.getUsuario())
+                        .titulo("Leite vencido")
+                        .mensagem("O leite '" + leite.getNome() + "' venceu em " + leite.getDataValidade())
+                        .tipoNotificacao(TipoNotificacao.VENCIMENTO_LEITE)
+                        .lida(false)
+                        .criadaEm(LocalDateTime.now())
+                        .build())
+                .toList();
+
+        notificacaoRepository.saveAll(notificacoes);
+        System.out.println("Notificações de leite vencido enviadas: " + notificacoes.size());
     }
 }
