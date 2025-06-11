@@ -106,7 +106,7 @@ public class LeiteServiceImpl implements LeiteService {
                 .toList();
     }
 
-    @Scheduled(fixedDelay = 30000) // 5 minutos
+    @Scheduled(fixedDelay = 300000) // 5 minutos
     public void atualizarStatusLeite() {
         System.out.print("EXECUTANDO: atualizarStatusLeite");
         LocalDate hoje = LocalDate.now();
