@@ -84,6 +84,10 @@ public class SenhaServiceImpl implements SenhaService {
       throw new RuntimeException("A senha atual está incorreta");
     }
 
+    if (!dto.novaSenha().equals(dto.confirmarNovaSenha())) {
+      throw new RuntimeException("As senhas não são iguais");
+    }
+
     usuario.setSenha(this.passwordEncoder.encode(dto.novaSenha()));
     this.usuarioRepository.save(usuario);
   }
