@@ -46,7 +46,6 @@ public class SenhaServiceImpl implements SenhaService {
     EnviarEmailDTO emailDTO =
         EnviarEmailDTO.builder()
             .to(dto.email())
-            .from("minha.aplicação@email.com")
             .subject("Solicitação de Reset de Senha")
             .body("Seu códido para resetar a senha é " + resetarSenha.getCodigo())
             .build();
@@ -57,9 +56,6 @@ public class SenhaServiceImpl implements SenhaService {
   @Override
   @Transactional
   public void resetarSenha(ResetarSenhaDTO dto) {
-
-    // Código comentado até a implementação do serviço de email
-    /*
     ResetarSenha resetarSenha =
         this.resetarSenhaRepository
             .findByEmailAndCodigo(dto.email(), dto.codigo())
@@ -69,7 +65,6 @@ public class SenhaServiceImpl implements SenhaService {
     if (resetarSenha.getDataExpiracao().isBefore(LocalDateTime.now())) {
       throw new RuntimeException("O código de reset de senha está expirado");
     }
-    */
 
     Usuario usuario = this.usuarioRepository.findByEmail(dto.email());
 
@@ -77,17 +72,19 @@ public class SenhaServiceImpl implements SenhaService {
       throw new RuntimeException("Nenhum usuário foi encontrado com o email " + dto.email());
     }
 
-    usuario.setSenha(dto.novaSenha());
+    usuario.setSenha(this.passwordEncoder.encode(dto.novaSenha()));
     this.usuarioRepository.save(usuario);
+    this.resetarSenhaRepository.delete(resetarSenha);
   }
 
   @Override
+  @Transactional
   public void mudarSenha(Usuario usuario, MudarSenhaDTO dto) {
-    if (passwordEncoder.matches(dto.senhaAtual(), usuario.getSenha())) {
+    if (!passwordEncoder.matches(dto.senhaAtual(), usuario.getSenha())) {
       throw new RuntimeException("A senha atual está incorreta");
     }
 
-    usuario.setSenha(dto.novaSenha());
+    usuario.setSenha(this.passwordEncoder.encode(dto.novaSenha()));
     this.usuarioRepository.save(usuario);
   }
 
