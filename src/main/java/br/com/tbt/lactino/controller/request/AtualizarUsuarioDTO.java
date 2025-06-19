@@ -1,9 +1,10 @@
 package br.com.tbt.lactino.controller.request;
 
-import br.com.tbt.lactino.model.Usuario;
+import org.springframework.web.multipart.MultipartFile;
 
 public record AtualizarUsuarioDTO(
         String nome,
+        byte[] fotoPerfil,
         String cep,
         String cidade,
         String estado,
