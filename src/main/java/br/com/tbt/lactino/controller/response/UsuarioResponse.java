@@ -3,6 +3,7 @@ package br.com.tbt.lactino.controller.response;
 import br.com.tbt.lactino.model.Usuario;
 
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.UUID;
 
 public record UsuarioResponse(
@@ -15,7 +16,8 @@ public record UsuarioResponse(
         String cidade,
         String estado,
         String role,
-        LocalDateTime criadoEm
+        LocalDateTime criadoEm,
+        byte[] fotoPerfil
 ) {
 
   public UsuarioResponse(Usuario usuario) {
@@ -29,7 +31,8 @@ public record UsuarioResponse(
             usuario.getCidade(),
             usuario.getEstado(),
             usuario.getRole().name(),
-            usuario.getCriadoEm()
+            usuario.getCriadoEm(),
+            usuario.getFotoPerfil()
     );
   }
 }
