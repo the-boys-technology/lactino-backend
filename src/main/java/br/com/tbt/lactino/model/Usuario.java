@@ -39,9 +39,6 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
-    @Column(name = "foto_perfil")
-    private byte[] fotoPerfil;
-
     @Column
     private String cep;
 
