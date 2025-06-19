@@ -76,4 +76,11 @@ public class AuthController {
     this.senhaService.mudarSenha(usuario, dto);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
+
+  @PutMapping("/editar-dados")
+  public ResponseEntity<Void> editarUsuario(@AuthenticationPrincipal Usuario usuario,
+                                            @RequestBody @Valid AtualizarUsuarioDTO dto) {
+    usuarioService.atualizarUsuario(usuario, dto);
+    return ResponseEntity.noContent().build();
+  }
 }
