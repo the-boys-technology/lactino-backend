@@ -9,9 +9,4 @@ public record MudarSenhaDTO(
             regexp = "^(?=.*[0-9])(?=.*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?-]).{8,}$",
             message =
                 "A senha precisa ter, no mínimo, 8 caracteres, com pelo menos um número e um caractere especial")
-        String novaSenha,
-    @Pattern(
-            regexp = "^(?=.*[0-9])(?=.*[!@#$%^&*()_+=\\[\\]{};':\"\\\\|,.<>/?-]).{8,}$",
-            message =
-                "A senha precisa ter, no mínimo, 8 caracteres, com pelo menos um número e um caractere especial")
-        String confirmarNovaSenha) {}
+        String novaSenha) {}
