@@ -59,20 +59,21 @@ public class AuthController {
   }
 
   @PostMapping("/solicitar-redefinicao-senha")
-  public ResponseEntity<Void> solicitarRedefinicaoSenha(SolicitarResetSenhaDTO dto) {
+  public ResponseEntity<Void> solicitarRedefinicaoSenha(
+      @RequestBody @Valid SolicitarResetSenhaDTO dto) {
     this.senhaService.solicitarResetSenha(dto);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @PostMapping("/redefinir-senha")
-  public ResponseEntity<Void> redefinirSenha(ResetarSenhaDTO dto) {
+  public ResponseEntity<Void> redefinirSenha(@RequestBody @Valid ResetarSenhaDTO dto) {
     this.senhaService.resetarSenha(dto);
     return ResponseEntity.status(HttpStatus.OK).build();
   }
 
   @PostMapping("/mudar-senha")
   public ResponseEntity<Void> redefinirSenha(
-      @AuthenticationPrincipal Usuario usuario, MudarSenhaDTO dto) {
+      @AuthenticationPrincipal Usuario usuario, @RequestBody @Valid MudarSenhaDTO dto) {
     this.senhaService.mudarSenha(usuario, dto);
     return ResponseEntity.status(HttpStatus.OK).build();
   }

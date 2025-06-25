@@ -30,7 +30,7 @@ public class SenhaServiceImpl implements SenhaService {
 
   @Override
   public void solicitarResetSenha(SolicitarResetSenhaDTO dto) {
-    if (this.usuarioRepository.existsByEmail(dto.email())) {
+    if (!this.usuarioRepository.existsByEmail(dto.email())) {
       throw new RuntimeException("Não foi encontrado nenhum usuário com o email encontrado");
     }
 
@@ -63,6 +63,7 @@ public class SenhaServiceImpl implements SenhaService {
                 () -> new RuntimeException("A solicitação de reset de senha não foi encontrada"));
 
     if (resetarSenha.getDataExpiracao().isBefore(LocalDateTime.now())) {
+      this.resetarSenhaRepository.delete(resetarSenha);
       throw new RuntimeException("O código de reset de senha está expirado");
     }
 
