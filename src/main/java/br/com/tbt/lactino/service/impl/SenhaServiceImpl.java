@@ -63,6 +63,7 @@ public class SenhaServiceImpl implements SenhaService {
                 () -> new RuntimeException("A solicitação de reset de senha não foi encontrada"));
 
     if (resetarSenha.getDataExpiracao().isBefore(LocalDateTime.now())) {
+      this.resetarSenhaRepository.delete(resetarSenha);
       throw new RuntimeException("O código de reset de senha está expirado");
     }
 
