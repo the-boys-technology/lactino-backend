@@ -30,7 +30,7 @@ public class SenhaServiceImpl implements SenhaService {
 
   @Override
   public void solicitarResetSenha(SolicitarResetSenhaDTO dto) {
-    if (this.usuarioRepository.existsByEmail(dto.email())) {
+    if (!this.usuarioRepository.existsByEmail(dto.email())) {
       throw new RuntimeException("Não foi encontrado nenhum usuário com o email encontrado");
     }
 
