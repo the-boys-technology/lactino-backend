@@ -9,6 +9,7 @@ import br.com.tbt.lactino.model.Notificacao;
 import br.com.tbt.lactino.model.Usuario;
 import br.com.tbt.lactino.model.enums.StatusLeiteEnum;
 import br.com.tbt.lactino.model.enums.TipoNotificacao;
+import br.com.tbt.lactino.repository.LaticinioRepository;
 import br.com.tbt.lactino.repository.LeiteRepository;
 import br.com.tbt.lactino.repository.NotificacaoRepository;
 import br.com.tbt.lactino.repository.UsuarioRepository;
@@ -32,11 +33,13 @@ public class LeiteServiceImpl implements LeiteService {
     private final LeiteRepository leiteRepository;
     private final UsuarioRepository usuarioRepository;
     private final NotificacaoRepository notificacaoRepository;
+    private final LaticinioRepository laticinioRepository;
 
-    public LeiteServiceImpl(LeiteRepository leiteRepository, UsuarioRepository usuarioRepository, NotificacaoRepository notificacaoRepository) {
+    public LeiteServiceImpl(LeiteRepository leiteRepository, UsuarioRepository usuarioRepository, NotificacaoRepository notificacaoRepository, LaticinioRepository laticinioRepository) {
         this.leiteRepository = leiteRepository;
         this.usuarioRepository = usuarioRepository;
         this.notificacaoRepository = notificacaoRepository;
+        this.laticinioRepository = laticinioRepository;
     }
 
     @Override
@@ -110,6 +113,13 @@ public class LeiteServiceImpl implements LeiteService {
     public void removerLeite(UUID leiteId) {
         Leite leite = leiteRepository.findById(leiteId)
                 .orElseThrow(() -> new EntityNotFoundException("Leite com ID " + leiteId + " não encontrado"));
+
+        boolean possuiLaticiniosVinculados = laticinioRepository.existsByLeiteUtilizado(leite);
+
+        if (possuiLaticiniosVinculados) {
+            throw new IllegalStateException("Não é possível remover o leite. Existem laticínios vinculados a ele.");
+        }
+
         leiteRepository.delete(leite);
     }
 
