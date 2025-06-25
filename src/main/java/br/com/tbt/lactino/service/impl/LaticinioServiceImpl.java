@@ -108,6 +108,14 @@ public class LaticinioServiceImpl implements LaticinioService {
                 .toList();
     }
 
+    @Override
+    public void removerLaticinio(UUID id) {
+        Laticinio laticinio = laticinioRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Laticínio com ID " + id + " não encontrado"));
+
+        laticinioRepository.delete(laticinio);
+    }
+
     @Scheduled(fixedDelay = 300000) // 5 minutos
     public void atualizarStatusLaticinios() {
         System.out.print("EXECUTANDO: atualizarStatusLaticinios");
