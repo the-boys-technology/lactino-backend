@@ -101,7 +101,7 @@ public class LaticinioServiceImpl implements LaticinioService {
         LocalDate limite = hoje.plusDays(3);
 
         List<Laticinio> laticinios = laticinioRepository
-                .findByUsuarioAndStatusAndDataValidadeBetween(usuario, StatusLaticinioEnum.EM_ESTOQUE, hoje, limite);
+                .findByUsuarioAndStatusAndDataValidadeBetween(usuario, StatusLaticinioEnum.DISPONIVEL, hoje, limite);
 
         return laticinios.stream()
                 .map(LaticinioDetalhadoResponse::new)
@@ -121,7 +121,7 @@ public class LaticinioServiceImpl implements LaticinioService {
         System.out.print("EXECUTANDO: atualizarStatusLaticinios");
         LocalDate hoje = LocalDate.now();
 
-        List<Laticinio> laticiniosEmEstoque = laticinioRepository.findByStatus(StatusLaticinioEnum.EM_ESTOQUE);
+        List<Laticinio> laticiniosEmEstoque = laticinioRepository.findByStatus(StatusLaticinioEnum.DISPONIVEL);
 
         List<Laticinio> laticiniosVencidos = laticiniosEmEstoque.stream()
                 .filter(l -> l.getDataValidade().isBefore(hoje))
