@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EnviarEmailServiceImpl implements EnviarEmailService {
-  private JavaMailSender mailSender;
+  private final JavaMailSender mailSender;
 
   @Value("${spring.mail.username}")
   private String emailFrom;

@@ -1,7 +1,7 @@
 package br.com.tbt.lactino.model.enums;
 
 public enum StatusLaticinioEnum {
-    EM_ESTOQUE("Em Estoque"),
+    DISPONIVEL("Disponível"),
     VENDIDO("Vendido"),
     VENCIDO("Vencido"),
     DESCARTADO("Descartado");
