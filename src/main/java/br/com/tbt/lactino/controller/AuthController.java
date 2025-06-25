@@ -9,11 +9,14 @@ import br.com.tbt.lactino.service.SenhaService;
 import br.com.tbt.lactino.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -76,5 +79,12 @@ public class AuthController {
       @AuthenticationPrincipal Usuario usuario, @RequestBody @Valid MudarSenhaDTO dto) {
     this.senhaService.mudarSenha(usuario, dto);
     return ResponseEntity.status(HttpStatus.OK).build();
+  }
+
+  @PutMapping(path = "/editar-dados")
+  public ResponseEntity<Void> editarUsuario(@AuthenticationPrincipal Usuario usuario,
+                                            @RequestBody @Valid AtualizarUsuarioDTO dto) throws IOException {
+    usuarioService.atualizarUsuario(usuario, dto);
+    return ResponseEntity.noContent().build();
   }
 }

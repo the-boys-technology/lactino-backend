@@ -70,4 +70,10 @@ public class LaticinioController {
         String email = tokenService.validarToken(request.getHeader("Authorization").substring(7));
         return laticinioService.listarLaticiniosVencendo(email);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void removerLaticinio(@PathVariable UUID id) {
+        this.laticinioService.removerLaticinio(id);
+    }
 }
