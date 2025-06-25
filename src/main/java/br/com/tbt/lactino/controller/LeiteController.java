@@ -78,4 +78,11 @@ public class LeiteController {
         String email = tokenService.validarToken(request.getHeader("Authorization").substring(7));
         return leiteService.listarLeitesVencendo(email);
     }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void removerLeite(@PathVariable UUID id) {
+        this.leiteService.removerLeite(id);
+    }
+
 }

@@ -22,4 +22,6 @@ public interface LeiteService {
     Page<LeiteDetalhadoResponse> listarLeitesComFiltro(LeiteFiltro filtro, Pageable pageable);
 
     List<LeiteDetalhadoResponse> listarLeitesVencendo(String email);
+
+    void removerLeite(UUID leiteId);
 }

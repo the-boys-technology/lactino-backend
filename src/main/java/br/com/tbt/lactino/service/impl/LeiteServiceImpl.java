@@ -106,6 +106,13 @@ public class LeiteServiceImpl implements LeiteService {
                 .toList();
     }
 
+    @Override
+    public void removerLeite(UUID leiteId) {
+        Leite leite = leiteRepository.findById(leiteId)
+                .orElseThrow(() -> new EntityNotFoundException("Leite com ID " + leiteId + " não encontrado"));
+        leiteRepository.delete(leite);
+    }
+
     @Scheduled(fixedDelay = 300000) // 5 minutos
     public void atualizarStatusLeite() {
         System.out.print("EXECUTANDO: atualizarStatusLeite");
