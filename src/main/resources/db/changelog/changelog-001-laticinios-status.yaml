@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-converter-em-estoque-para-disponivel
+      author: seu_nome
+      changes:
+        - update:
+            tableName: laticinios
+            columns:
+              - column:
+                  name: status
+                  value: DISPONIVEL
+            where: status = 'EM_ESTOQUE'
+
+  - changeSet:
+      id: 002-alterar-check-status-laticinios
+      author: seu_nome
+      changes:
+        - sql:
+            sql: |
+              ALTER TABLE laticinios DROP CONSTRAINT IF EXISTS laticinios_status_check;
+
+        - sql:
+            sql: |
+              ALTER TABLE laticinios ADD CONSTRAINT laticinios_status_check
+              CHECK (status IN ('DISPONIVEL', 'VENDIDO', 'VENCIDO', 'DESCARTADO'));
